@@ -1,0 +1,120 @@
+<div class="main">
+
+  <div class="login-container">
+
+    <div class="left-side">
+
+      <img
+        src="assets/login.png"
+        alt="Dashboard"
+        class="login-image"
+      >
+
+    </div>
+
+    <div class="right-side">
+
+      <h2>Login Account</h2>
+
+      <p class="sub-title">
+        Welcome back
+      </p>
+
+      <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+
+        <div class="input-box">
+
+          <label>Full Name</label>
+
+          <input
+            type="text"
+            name="name"
+            [(ngModel)]="user.name"
+            required
+            minlength="3"
+            pattern="[a-zA-Z ]*"
+            #name="ngModel"
+            placeholder="Enter your name"
+          >
+
+          <small *ngIf="name.errors?.['required'] && name.touched">
+            Name is required
+          </small>
+
+          <small *ngIf="name.errors?.['minlength'] && name.touched">
+            Minimum 3 characters required
+          </small>
+
+          <small *ngIf="name.errors?.['pattern'] && name.touched">
+            Only alphabets allowed
+          </small>
+
+        </div>
+
+        <div class="input-box">
+
+          <label>Email</label>
+
+          <input
+            type="email"
+            name="email"
+            [(ngModel)]="user.email"
+            required
+            email
+            #email="ngModel"
+            placeholder="Enter your email"
+          >
+
+          <small *ngIf="email.errors?.['required'] && email.touched">
+            Email required
+          </small>
+
+          <small *ngIf="email.errors?.['email'] && email.touched">
+            Enter valid email
+          </small>
+
+        </div>
+
+        <div class="input-box">
+
+          <label>Password</label>
+
+          <input
+            type="password"
+            name="password"
+            [(ngModel)]="user.password"
+            required
+            minlength="6"
+            pattern="^(?=.*[A-Z])(?=.*[0-9]).*$"
+            #password="ngModel"
+            placeholder="Enter password"
+          >
+
+          <small *ngIf="password.errors?.['required'] && password.touched">
+            Password required
+          </small>
+
+          <small *ngIf="password.errors?.['minlength'] && password.touched">
+            Minimum 6 characters required
+          </small>
+
+          <small *ngIf="password.errors?.['pattern'] && password.touched">
+            1 Capital letter & 1 Number required
+          </small>
+
+        </div>
+
+        <button
+          type="submit"
+          [disabled]="loginForm.invalid"
+        >
+          Login Now
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,49 @@
+body{
+    background: #f9fbf4;
+}
+
+.card{
+    overflow: hidden;
+}
+
+table th{
+    padding: 18px ;
+    font-size: 14px;
+    font-weight: 600;
+    border: none ;
+}
+
+table td{
+    padding: 18px;
+    vertical-align: middle;
+    border-color: #f1f1f1;
+}
+
+.table tbody tr{
+    transition: 0.3s;
+}
+
+.table tbody tr:hover{
+    background: #fafafa;
+}
+
+.icon-btn{
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn i{
+    font-size: 14px;
+}
+
+.dropdown-menu{
+    min-width: 170px;
+}
+
+.badge{
+    font-size: 13px;
+    font-weight: 500;
+}

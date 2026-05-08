@@ -1,0 +1,49 @@
+<div class="add-box card border-0 shadow-lg rounded-4 p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold mb-0">Add New User</h4>
+
+        <button class="btn btn-light border rounded-circle" (click)="close()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+
+    <form (ngSubmit)="addUser()" #userForm="ngForm">
+        <div class="row g-3">
+
+            <div class="col-md-6">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" name="name" [(ngModel)]="user.name" required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" [(ngModel)]="user.email" required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Role</label>
+                <input type="text" class="form-control" name="role" [(ngModel)]="user.role" required>
+            </div>
+
+
+            <div class="col-md-6">
+                <label class="form-label">Reportee</label>
+                <input type="text" class="form-control" name="reportee" [(ngModel)]="user.reportee" required>
+            </div>
+
+            <div class="col-12 d-flex justify-content-end gap-2 mt-3">
+                <button type="button" class="btn btn-light border px-4" (click)="close()">
+                    Cancel
+                </button>
+
+                <button type="submit" class="btn btn-dark px-4" [disabled]="userForm.invalid">
+                    Add User
+                </button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+

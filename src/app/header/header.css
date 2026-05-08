@@ -1,0 +1,116 @@
+/* header.component.css */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+
+.header{
+  width: 100%;
+  height: 90px;
+  background: #111827;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #334155;
+}
+
+/* Logo */
+
+.logo{
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+/* Right Side */
+
+.right-side{
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+/* Logout Button */
+
+.logout-btn{
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(to right,#ef4444,#dc2626);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.user-list{
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(to right,#6366f1,#8b5cf6);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout-btn:hover{
+  transform: scale(1.05);
+}
+
+/* Profile */
+
+.profile{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-circle{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(to right,#6366f1,#8b5cf6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.profile h4{
+  color: white;
+  margin-bottom: 4px;
+}
+
+.profile p{
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+@media(max-width:768px){
+
+  .header{
+    padding: 0 20px;
+  }
+
+  .logo{
+    font-size: 24px;
+  }
+
+  .logout-btn{
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+
+  .profile h4,
+  .profile p{
+    display: none;
+  }
+
+}

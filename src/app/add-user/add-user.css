@@ -1,0 +1,13 @@
+.add-box {
+    background: #ffffff;
+}
+
+.form-control {
+    border-radius: 12px;
+    padding: 10px 14px;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #212529;
+}
