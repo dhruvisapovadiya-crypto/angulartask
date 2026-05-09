@@ -22,9 +22,17 @@
 
             <div class="col-md-6">
                 <label class="form-label">Role</label>
-                <input type="text" class="form-control" name="role" [(ngModel)]="user.role" required>
-            </div>
 
+                <select class="form-select" name="role" [(ngModel)]="user.role" required>
+                    <option value="" disabled>Select Role</option>
+                    <option value="Admin">Admin</option>
+                    <option value="HR">HR</option>
+                    <option value="Developer">Developer</option>
+                    <option value="Tester">Tester</option>
+                    <option value="CEO">CEO</option>
+                    <option value="RM">RM</option>
+                </select>
+            </div>
 
             <div class="col-md-6">
                 <label class="form-label">Reportee</label>
@@ -44,6 +52,3 @@
         </div>
     </form>
 </div>
-
-
-

@@ -7,5 +7,5 @@ export const routes: Routes = [
     { path: '', component: Login },
     { path: 'dashboard', loadComponent: () => import('./dashboard/dashboard').then(m => m.Dashboard) },
     { path: 'add-user', component: AddUser },
-    { path: 'user-list', component: UserList }
+    { path: 'user-list', component: UserList },
 ];

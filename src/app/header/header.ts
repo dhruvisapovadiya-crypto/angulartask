@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { Login } from '../login/login';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [RouterLink,Login],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
@@ -14,8 +15,9 @@ export class Header {
     this.router.navigate(['/user-list']);
   }
   ngOnInit() {
-
     this.username = localStorage.getItem('username') || '';
-
+  }
+  logout(){
+    this.router.navigate(['']);
   }
 }

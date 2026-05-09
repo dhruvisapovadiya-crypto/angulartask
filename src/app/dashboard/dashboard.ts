@@ -13,8 +13,6 @@ export class Dashboard {
    username = '';
 
   ngOnInit(){
-
     this.username = localStorage.getItem('username') || '';
-
   }
 }

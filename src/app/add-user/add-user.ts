@@ -18,7 +18,6 @@ export class AddUser {
   @Output() userAdded = new EventEmitter<void>();
 
   user = {
-
     name: '',
     email: '',
     role: '',
@@ -42,6 +41,7 @@ addUser() {
 }
   close() {
     this.closeForm.emit();
+    this.router.navigate(['/user-list']);
   }
 }
 
