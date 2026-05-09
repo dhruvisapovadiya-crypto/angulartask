@@ -167,7 +167,7 @@
 
                         <td>
                             @if (editIndex == i) {
-                            <input [(ngModel)]="user.rportee" class="form-control">
+                            <input [(ngModel)]="user.reportee" class="form-control">
                             } @else {
                             <span class="badge bg-secondary-subtle text-dark px-3 py-2 rounded-pill">
                                 {{ user.reportee }}
@@ -178,13 +178,9 @@
                         <td>
                             @if (user.status == 'Approved') {
                             <span class="badge bg-success">Approved</span>
-                            }
-
-                            @if (user.status == 'Rejected') {
+                            } @else if (user.status == 'Rejected') {
                             <span class="badge bg-danger">Rejected</span>
-                            }
-
-                            @if (!user.status) {
+                            } @else {
                             <span class="badge bg-secondary">Pending</span>
                             }
                         </td>

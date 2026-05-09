@@ -30,14 +30,16 @@ export class AddUser {
     status: 'Pending'
   };
 
-  addUser() {
-    this.http
-      .post('https://69e0d98d29c070e6597c24fa.mockapi.io/user', this.user)
-      .subscribe(() => {
-        alert('User Added Successfully');
-        this.router.navigate(['/user-list']);
-      });
-  }
+addUser() {
+  this.http
+    .post('https://69e0d98d29c070e6597c24fa.mockapi.io/user', this.user)
+    .subscribe(() => {
+      alert('User Added Successfully');
+      this.userAdded.emit();
+      this.closeForm.emit();
+      this.router.navigate(['/user-list']);
+    });
+}
   close() {
     this.closeForm.emit();
   }
