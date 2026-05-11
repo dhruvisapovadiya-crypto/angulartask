@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { Login } from '../login/login';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +18,36 @@ export class Header {
   ngOnInit() {
     this.username = localStorage.getItem('username') || '';
   }
-  logout(){
-    this.router.navigate(['']);
-  }
+  logout() {
+
+  Swal.fire({
+    title: 'Logout?',
+    text: 'You will be redirected to login page',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#dc3545',
+    confirmButtonText: 'Logout',
+    cancelButtonText: 'Cancel'
+  }).then((result: any) => {
+
+    if (result.isConfirmed) {
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Logged Out Successfully',
+        timer: 1000,
+        showConfirmButton: false
+      });
+
+      setTimeout(() => {
+
+        this.router.navigate(['']);
+
+      }, 1000);
+
+    }
+
+  });
+
+}
 }

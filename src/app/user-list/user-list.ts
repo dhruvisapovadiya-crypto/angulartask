@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AddUser } from '../add-user/add-user';
 import { RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-user-list',
@@ -16,17 +17,16 @@ import Swal from 'sweetalert2';
 export class UserList implements OnInit {
   showAddForm = false;
   http = inject(HttpClient);
+  cdr = inject(ChangeDetectorRef);
 
-  users: any[] = [{
-    name: 'dhruvi',
-    email: 'dhruvi@gmail.com'
-  }];
+  users: any[] = [];
 
   editIndex: number = -1;
   oldUser: any = null;
   editingUser: any = null;
   changeRequests: any[] = [];
-  isDeleting: boolean = false;
+  isApproving: boolean = false;
+  isRejecting: boolean = false;
 
   ngOnInit() {
     this.getUsers();
@@ -40,23 +40,40 @@ export class UserList implements OnInit {
     this.showAddForm = false;
   }
 
-  getUsers() {
+  getUsers(): void {
+
     this.http.get<any[]>(
       'https://69e0d98d29c070e6597c24fa.mockapi.io/user'
     ).subscribe({
+
       next: (result) => {
+
         this.users = result;
+
+        this.cdr.detectChanges();
+
       },
+
       error: (err) => {
-        console.log('API Error:', err);
+
+        console.log(err);
+
+        Swal.fire({
+          icon: 'error',
+          title: 'API Error'
+        });
+
       }
+
     });
+
   }
 
   editUser(index: number) {
     this.editIndex = index;
     this.oldUser = { ...this.users[index] };
     this.editingUser = { ...this.users[index] };
+    this.cdr.detectChanges();
   }
 
   saveUser(index: number) {
@@ -116,111 +133,114 @@ export class UserList implements OnInit {
     this.editingUser = null;
   }
 
-approveRequest(req: any, reqIndex: number) {
+  approveRequest(req: any, reqIndex: number) {
 
-  const approvedUser = {
-    ...req.newData,
-    status: 'Approved'
-  };
+    const approvedUser = {
+      ...req.newData,
+      status: 'Approved'
+    };
 
-  this.http.put(
-    'https://69e0d98d29c070e6597c24fa.mockapi.io/user/' + req.userId,
-    approvedUser
-  ).subscribe({
-    next: () => {
+    this.http.put(
+      'https://69e0d98d29c070e6597c24fa.mockapi.io/user/' + req.userId,
+      approvedUser
+    ).subscribe({
+      next: () => {
 
-      this.users[req.userIndex] = approvedUser;
+        this.users[req.userIndex] = approvedUser;
 
-      this.changeRequests.splice(reqIndex, 1);
+        this.changeRequests.splice(reqIndex, 1);
+        this.cdr.detectChanges();
 
-      Swal.fire(
-        'Approved',
-        'Changes Approved Successfully',
-        'success'
-      );
-    },
+        Swal.fire(
+          'Approved',
+          'Changes Approved Successfully',
+          'success'
+        );
+      },
 
-    error: (err) => {
-      console.log(err);
-    }
-  });
-}
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
 
-rejectRequest(req: any, reqIndex: number) {
+  rejectRequest(req: any, reqIndex: number) {
 
-  const rejectedUser = {
-    ...req.oldData,
-    status: 'Rejected'
-  };
+    const rejectedUser = {
+      ...req.oldData,
+      status: 'Rejected'
+    };
 
-  this.http.put(
-    'https://69e0d98d29c070e6597c24fa.mockapi.io/user/' + req.userId,
-    rejectedUser
-  ).subscribe({
-    next: () => {
+    this.http.put(
+      'https://69e0d98d29c070e6597c24fa.mockapi.io/user/' + req.userId,
+      rejectedUser
+    ).subscribe({
+      next: () => {
 
-      this.users[req.userIndex] = rejectedUser;
+        this.users[req.userIndex] = rejectedUser;
 
-      this.changeRequests.splice(reqIndex, 1);
+        this.changeRequests.splice(reqIndex, 1);
+        this.cdr.detectChanges();
 
-      Swal.fire(
-        'Rejected',
-        'Edit request rejected successfully.',
-        'info'
-      );
-    },
+        Swal.fire(
+          'Rejected',
+          'Edit request rejected successfully.',
+          'info'
+        );
+      },
 
-    error: (err) => {
-      console.log(err);
-    }
-  });
-}
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
 
-  deleteUser(id: string, index: number) {
-    if (this.isDeleting) {
-      return;
-    }
+  deleteUser(id: string) {
 
     Swal.fire({
-      title: 'Are you sure?',
-      text: 'This user will be deleted permanently!',
+      title: 'Delete User?',
+      text: 'This action cannot be undone',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it',
-      cancelButtonText: 'Cancel',
-      confirmButtonColor: '#dc3545'
+      confirmButtonColor: '#dc3545',
+      confirmButtonText: 'Delete'
     }).then((result) => {
+
       if (result.isConfirmed) {
-        this.isDeleting = true;
 
         this.http.delete(
           'https://69e0d98d29c070e6597c24fa.mockapi.io/user/' + id
         ).subscribe({
-          next: () => {
-            this.users.splice(index, 1);
-            this.getUsers();
-            this.isDeleting = false;
 
+          next: () => {
+
+            this.cdr.detectChanges();
             Swal.fire({
-              title: 'Deleted!',
-              text: 'User deleted successfully.',
               icon: 'success',
-              timer: 1500,
+              title: 'Deleted Successfully',
+              timer: 1000,
               showConfirmButton: false
             });
+            window.location.reload();
+
           },
+
           error: (err) => {
+
             console.log(err);
-            this.isDeleting = false;
 
             Swal.fire({
-              title: 'Error!',
-              text: 'User not deleted. Please try again.',
-              icon: 'error'
+              icon: 'error',
+              title: 'Delete Failed'
             });
+
           }
+
         });
+
       }
+
     });
+
   }
 }

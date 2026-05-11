@@ -1,6 +1,6 @@
 <div class="container-fluid py-4 bg-light min-vh-100">
     <div class="card shadow-lg border-0 rounded-4">
-        <div class="card-header bg-white border-0 p-4">
+        <div class="card-header bg-white p-4">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h2 class="fw-bold mb-1">
@@ -10,18 +10,15 @@
                         Manage existing users
                     </p>
                 </div>
-
                 <button class="btn btn-dark rounded-3 px-4" routerLink="/add-user">
                     <i class="bi bi-plus-lg me-2"></i>
                     Add User
                 </button>
-
                 @if (showAddForm) {
                 <app-add-user (closeForm)="closeAddForm()" (userAdded)="getUsers()"></app-add-user>
                 }
             </div>
         </div>
-
         <div class="table-responsive">
             <table class="table align-middle mb-0 table-striped">
                 <thead class="table-dark">
@@ -55,24 +52,22 @@
                                 }
 
                                 <button class="btn btn-light border rounded-circle icon-btn" type="button"
-                                    (click)="deleteUser(user.id, i)">
+                                    (click)="deleteUser(user.id); $event.stopPropagation()">
                                     <i class="bi bi-trash-fill text-danger"></i>
                                 </button>
 
                                 <div class="dropdown">
                                     <button class="btn btn-light border rounded-circle icon-btn dropdown-icon"
                                         type="button" data-bs-toggle="dropdown">
-
                                         <i class="bi bi-chevron-down fw-bold"></i>
-
-                                        @if (changeRequests.length > 0) {
+                                        @if (changeRequests.some(req => req.userId == user.id)) {
                                         <span class="request-count">
-                                            {{ changeRequests.length }}
+                                            1
                                         </span>
                                         }
                                     </button>
-
-                                    <ul class="dropdown-menu border-0 shadow rounded-4 p-3 request-dropdown">
+                                    <ul class="dropdown-menu border-0 shadow rounded-4 p-3 request-dropdown"
+                                        data-bs-auto-close="outside">
                                         @if (changeRequests.length === 0) {
                                         <li class="text-center text-muted small">
                                             No Requests Found
@@ -80,94 +75,109 @@
                                         }
 
                                         @for (req of changeRequests; track $index; let reqIndex = $index) {
+                                        @if (req.userId == user.id) {
                                         <li class="mb-3">
                                             <div class="request-card">
                                                 <h6 class="fw-bold text-dark mb-3">
                                                     Edit Request
                                                 </h6>
-
                                                 @for (change of req.changes; track $index) {
                                                 <div class="change-box mb-2">
                                                     <p class="mb-1 fw-semibold text-primary">
                                                         {{ change.field }}
                                                     </p>
-
                                                     <p class="mb-1 old-text">
-                                                        Old:
-                                                        {{ change.oldValue }}
+                                                        Old:{{ change.oldValue }}
                                                     </p>
-
                                                     <p class="mb-0 new-text">
-                                                        New:
-                                                        {{ change.newValue }}
+                                                        New:{{ change.newValue }}
                                                     </p>
                                                 </div>
                                                 }
-
                                                 <div class="d-flex gap-2 mt-3">
                                                     <button class="btn btn-success btn-sm flex-fill" type="button"
+                                                        [disabled]="isApproving"
                                                         (click)="approveRequest(req, reqIndex)">
                                                         <i class="bi bi-check-circle-fill me-1"></i>
+                                                        @if (isApproving) {
+                                                        Approving...
+                                                        } @else {
                                                         Approve
+                                                        }
                                                     </button>
-
                                                     <button class="btn btn-danger btn-sm flex-fill" type="button"
-                                                        (click)="rejectRequest(req, reqIndex)">
+                                                        [disabled]="isRejecting" (click)="rejectRequest(req, reqIndex)">
                                                         <i class="bi bi-x-circle-fill me-1"></i>
+                                                        @if (isRejecting) {
+                                                        Rejecting...
+                                                        } @else {
                                                         Reject
+                                                        }
                                                     </button>
                                                 </div>
                                             </div>
                                         </li>
                                         }
+                                        }
                                     </ul>
                                 </div>
                             </div>
                         </td>
-
                         <td>
                             @if (editIndex == i) {
                             <input [(ngModel)]="editingUser.name" class="form-control">
-                            } @else {
-                            <span class="fw-semibold">{{ user.name }}</span>
+                            }
+                            @else {
+                            <span class="fw-semibold">
+                                {{ user.name }}
+                            </span>
                             }
                         </td>
-
                         <td>
                             @if (editIndex == i) {
                             <input [(ngModel)]="editingUser.email" class="form-control">
-                            } @else {
-                            <span class="text-muted">{{ user.email }}</span>
+                            }
+                            @else {
+                            <span class="text-muted">
+                                {{ user.email }}
+                            </span>
                             }
                         </td>
-
                         <td>
                             @if (editIndex == i) {
                             <input [(ngModel)]="editingUser.role" class="form-control">
-                            } @else {
+                            }
+                            @else {
                             <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill">
                                 {{ user.role }}
                             </span>
                             }
                         </td>
-
                         <td>
                             @if (editIndex == i) {
                             <input [(ngModel)]="editingUser.reportee" class="form-control">
-                            } @else {
+                            }
+                            @else {
                             <span class="badge bg-secondary-subtle text-dark px-3 py-2 rounded-pill">
                                 {{ user.reportee }}
                             </span>
                             }
                         </td>
-
                         <td>
                             @if (user.status == 'Approved') {
-                            <span class="badge bg-success">Approved</span>
-                            } @else if (user.status == 'Rejected') {
-                            <span class="badge bg-danger">Rejected</span>
-                            } @else {
-                            <span class="badge bg-secondary">Pending</span>
+                            <span class="badge bg-success">
+                                Approved
+                            </span>
+                            }
+                            @else if (user.status == 'Rejected') {
+                            <span class="badge bg-danger">
+                                Rejected
+                            </span>
+                            }
+                            @else {
+                            <span class="badge bg-secondary">
+                                Pending
+                            </span>
                             }
                         </td>
                     </tr>
