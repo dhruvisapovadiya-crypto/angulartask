@@ -26,8 +26,8 @@ export class UserList implements OnInit {
   oldUser: any = null;
   editingUser: any = null;
   changeRequests: any[] = [];
-  isApproving: boolean = false;
-  isRejecting: boolean = false;
+  isApproving: boolean = false; // jyare request aave and approve thai tyre loading jevu animation aave ena mate 
+  isRejecting: boolean = false; // jyare request aave and reject  thai tyre loading jevu animation aave ena mate 
 
   ngOnInit() {
     this.getUsers();
@@ -39,11 +39,13 @@ export class UserList implements OnInit {
     this.showAddForm = false;
   }
   getUsers(): void {
+    
     this.http.get<any[]>(
       'https://69e0d98d29c070e6597c24fa.mockapi.io/user'
     ).subscribe({
+
       next: (result) => {
-        this.users = result;
+        this.users = result.reverse();
         this.reporteeList = [
           ...new Set(result.map(user => user.name))
         ];
@@ -72,7 +74,7 @@ export class UserList implements OnInit {
     }
 
     const user = this.editingUser;
-    const changes: any[] = [];
+    const changes: any[] = []; // changes aave  e aa array ma aavse 
 
     if (this.oldUser.name !== user.name) {
       changes.push({
@@ -171,7 +173,7 @@ export class UserList implements OnInit {
           this.cdr.detectChanges();
           Swal.fire(
             'Rejected',
-            'Edit request rejected successfully.',
+            'Sorry , Your Edit request rejected so your changes not displayed ',
             'warning'
           );
         }, 2000);
