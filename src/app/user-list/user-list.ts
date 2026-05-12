@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AddUser } from '../add-user/add-user';
 import { RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
-import { ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core'; //UI ne refresh karava mate use kari chi aapde aa 
 
 @Component({
   selector: 'app-user-list',
@@ -19,8 +19,9 @@ export class UserList implements OnInit {
   http = inject(HttpClient);
   cdr = inject(ChangeDetectorRef);
 
-  users: any[] = [];
+  users: any[] = []; //users store aaya thai 
 
+  reporteeList: string[] = [];
   editIndex: number = -1;
   oldUser: any = null;
   editingUser: any = null;
@@ -31,42 +32,31 @@ export class UserList implements OnInit {
   ngOnInit() {
     this.getUsers();
   }
-
   openAddForm() {
     this.showAddForm = true;
   }
-
   closeAddForm() {
     this.showAddForm = false;
   }
-
   getUsers(): void {
-
     this.http.get<any[]>(
       'https://69e0d98d29c070e6597c24fa.mockapi.io/user'
     ).subscribe({
-
       next: (result) => {
-
         this.users = result;
-
+        this.reporteeList = [
+          ...new Set(result.map(user => user.name))
+        ];
         this.cdr.detectChanges();
-
       },
-
       error: (err) => {
-
         console.log(err);
-
         Swal.fire({
           icon: 'error',
           title: 'API Error'
         });
-
       }
-
     });
-
   }
 
   editUser(index: number) {
@@ -124,17 +114,15 @@ export class UserList implements OnInit {
         newData: { ...user },
         changes: changes
       });
-
       Swal.fire('Request Created', 'Edit request generated. Please approve from dropdown.', 'success');
     }
-
     this.editIndex = -1;
     this.oldUser = null;
     this.editingUser = null;
   }
 
   approveRequest(req: any, reqIndex: number) {
-
+    this.isApproving = true;
     const approvedUser = {
       ...req.newData,
       status: 'Approved'
@@ -145,27 +133,27 @@ export class UserList implements OnInit {
       approvedUser
     ).subscribe({
       next: () => {
-
-        this.users[req.userIndex] = approvedUser;
-
-        this.changeRequests.splice(reqIndex, 1);
-        this.cdr.detectChanges();
-
-        Swal.fire(
-          'Approved',
-          'Changes Approved Successfully',
-          'success'
-        );
+        setTimeout(() => {
+          this.isApproving = false;
+          this.users[req.userIndex] = approvedUser;
+          this.changeRequests.splice(reqIndex, 1);
+          this.cdr.detectChanges();
+          Swal.fire(
+            'Approved',
+            'Changes Approved Successfully',
+            'success'
+          );
+        }, 2000);
       },
-
       error: (err) => {
+        this.isApproving = false;
         console.log(err);
       }
     });
   }
 
   rejectRequest(req: any, reqIndex: number) {
-
+    this.isRejecting = true;
     const rejectedUser = {
       ...req.oldData,
       status: 'Rejected'
@@ -176,27 +164,30 @@ export class UserList implements OnInit {
       rejectedUser
     ).subscribe({
       next: () => {
-
-        this.users[req.userIndex] = rejectedUser;
-
-        this.changeRequests.splice(reqIndex, 1);
-        this.cdr.detectChanges();
-
-        Swal.fire(
-          'Rejected',
-          'Edit request rejected successfully.',
-          'info'
-        );
+        setTimeout(() => {
+          this.isRejecting = false;
+          this.users[req.userIndex] = rejectedUser;
+          this.changeRequests.splice(reqIndex, 1);
+          this.cdr.detectChanges();
+          Swal.fire(
+            'Rejected',
+            'Edit request rejected successfully.',
+            'warning'
+          );
+        }, 2000);
       },
-
       error: (err) => {
+        this.isRejecting = false;
         console.log(err);
       }
     });
   }
-
+  getRequestCount(userId: any) {
+    return this.changeRequests.filter(
+      (req: any) => req.userId == userId
+    ).length;
+  }
   deleteUser(id: string) {
-
     Swal.fire({
       title: 'Delete User?',
       text: 'This action cannot be undone',
@@ -205,15 +196,11 @@ export class UserList implements OnInit {
       confirmButtonColor: '#dc3545',
       confirmButtonText: 'Delete'
     }).then((result) => {
-
       if (result.isConfirmed) {
-
         this.http.delete(
           'https://69e0d98d29c070e6597c24fa.mockapi.io/user/' + id
         ).subscribe({
-
           next: () => {
-
             this.cdr.detectChanges();
             Swal.fire({
               icon: 'success',
@@ -222,25 +209,16 @@ export class UserList implements OnInit {
               showConfirmButton: false
             });
             window.location.reload();
-
           },
-
           error: (err) => {
-
             console.log(err);
-
             Swal.fire({
               icon: 'error',
               title: 'Delete Failed'
             });
-
           }
-
         });
-
       }
-
     });
-
   }
 }

@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="fw-bold mb-0">Add New User</h4>
 
-        <button class="btn btn-light border rounded-circle" (click)="close()">
+        <button class="btn btn-light border rounded-circle" type="button" (click)="close()">
             <i class="bi bi-x-lg"></i>
         </button>
     </div>
@@ -22,7 +22,6 @@
 
             <div class="col-md-6">
                 <label class="form-label">Role</label>
-
                 <select class="form-select" name="role" [(ngModel)]="user.role" required>
                     <option value="" disabled>Select Role</option>
                     <option value="Admin">Admin</option>
@@ -36,7 +35,27 @@
 
             <div class="col-md-6">
                 <label class="form-label">Reportee</label>
-                <input type="text" class="form-control" name="reportee" [(ngModel)]="user.reportee" required>
+
+                <div class="dropdown w-100">
+                    <button class="form-select text-start" type="button" data-bs-toggle="dropdown">
+                        {{ user.reportee.length ? user.reportee.join(', ') : 'Select Reportee' }}
+                    </button>
+
+                    <ul class="dropdown-menu w-100 p-2">
+                        @for (reportee of reporteeList; track reportee) {
+                        <li>
+                            <label class="dropdown-item">
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input me-2"
+                                    [checked]="user.reportee.includes(reportee)"
+                                    (change)="toggleReportee(reportee, $event)">
+                                {{ reportee }}
+                            </label>
+                        </li>
+                        }
+                    </ul>
+                </div>
             </div>
 
             <div class="col-12 d-flex justify-content-end gap-2 mt-3">
@@ -44,7 +63,7 @@
                     Cancel
                 </button>
 
-                <button type="submit" class="btn btn-dark px-4" [disabled]="userForm.invalid">
+                <button type="submit" class="btn btn-dark px-4" [disabled]="userForm.invalid || user.reportee.length === 0 || isAdding">
                     Add User
                 </button>
             </div>

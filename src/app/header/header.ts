@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink,Login],
+  imports: [],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
@@ -21,8 +21,9 @@ export class Header {
   logout() {
 
   Swal.fire({
-    title: 'Logout?',
+    title: 'Are You Sure You Want to Leave?',
     text: 'You will be redirected to login page',
+    iconColor: '#ff6b6b',
     icon: 'question',
     showCancelButton: true,
     confirmButtonColor: '#dc3545',

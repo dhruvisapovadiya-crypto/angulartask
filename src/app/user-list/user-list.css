@@ -1,54 +1,71 @@
-body{
-    background: #f9fbf4;
+body {
+  background: #f9fbf4;
 }
 
-.card{
-    overflow: hidden;
+.card {
+  overflow: hidden;
 }
 
-table th{
-    padding: 18px ;
-    font-size: 14px;
-    font-weight: 600;
-    border: none ;
+table th {
+  padding: 18px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+
 }
 
-table td{
-    padding: 18px;
-    vertical-align: middle;
-    border-color: #f1f1f1;
+table td {
+  padding: 18px;
+  vertical-align: middle;
+  border-color: #f1f1f1;
+
 }
 
-.table tbody tr{
-    transition: 0.3s;
+.table tbody tr {
+  transition: 0.3s;
 }
 
-.table tbody tr:hover{
-    background: #fafafa;
+.table tbody tr:hover {
+  background: #fafafa;
 }
 
-.icon-btn{
-    width: 38px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.icon-btn i{
-    font-size: 14px;
+table {
+  margin-bottom: 250px;
 }
 
-.dropdown-menu{
-    min-width: 170px;
+.icon-btn i {
+  font-size: 14px;
 }
 
-.badge{
+.dropdown-menu {
+  min-width: 170px;
+}
+
+.badge {
+  font-size: 12px;
+  font-weight: 500;
+}
+.reportee-badge{
+    background: #e5e7eb;
+    padding: 10px 13px;
+    border-radius: 10px;
+    display: inline-block;
+    white-space: normal;
+    max-width: 240px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: bolder;
 }
 
 @media (max-width: 992px) {
+
   table th,
   table td {
     padding: 14px 12px;
@@ -61,7 +78,7 @@ table td{
   }
 
   .badge {
-    font-size: 12px;
+    font-size: 10px;
   }
 }
 

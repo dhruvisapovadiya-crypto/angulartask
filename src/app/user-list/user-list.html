@@ -15,7 +15,7 @@
                     Add User
                 </button>
                 @if (showAddForm) {
-                <app-add-user (closeForm)="closeAddForm()" (userAdded)="getUsers()"></app-add-user>
+                <app-add-user [reporteeList]="reporteeList" (closeForm)="closeAddForm()" (userAdded)="getUsers()"></app-add-user>
                 }
             </div>
         </div>
@@ -60,11 +60,11 @@
                                     <button class="btn btn-light border rounded-circle icon-btn dropdown-icon"
                                         type="button" data-bs-toggle="dropdown">
                                         <i class="bi bi-chevron-down fw-bold"></i>
-                                        @if (changeRequests.some(req => req.userId == user.id)) {
-                                        <span class="request-count">
-                                            1
-                                        </span>
-                                        }
+@if (getRequestCount(user.id) > 0) {
+<span class="request-count">
+    {{ getRequestCount(user.id) }}
+</span>
+}
                                     </button>
                                     <ul class="dropdown-menu border-0 shadow rounded-4 p-3 request-dropdown"
                                         data-bs-auto-close="outside">
@@ -145,7 +145,22 @@
                         </td>
                         <td>
                             @if (editIndex == i) {
-                            <input [(ngModel)]="editingUser.role" class="form-control">
+                            <select [(ngModel)]="editingUser.role" class="form-select" name="role">
+
+                                <option [ngValue]="editingUser.role">
+                                    {{ editingUser.role }}
+                                </option>
+                                <option value="Admin">Frontend Developer</option>
+                                <option value="Admin">QA Tester</option>
+                                <option value="Admin">Backend Developer</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Admin">UI/UX Designer</option>
+                                <option value="Manager">Manager</option>
+                                <option value="Employee">Employee</option>
+                                <option value="HR">HR</option>
+                                <option value="Team Lead">Team Lead</option>
+
+                            </select>
                             }
                             @else {
                             <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill">
@@ -158,7 +173,7 @@
                             <input [(ngModel)]="editingUser.reportee" class="form-control">
                             }
                             @else {
-                            <span class="badge bg-secondary-subtle text-dark px-3 py-2 rounded-pill">
+                            <span class="reportee-badge bg-secondary-subtle text-dark">
                                 {{ user.reportee }}
                             </span>
                             }
@@ -187,3 +202,6 @@
         </div>
     </div>
 </div>
+
+
+
