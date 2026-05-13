@@ -14,7 +14,7 @@
   padding: 20px;
 }
 
-.login-container {
+.login {
   min-height: 600px;
   max-width: 1300px;
   background: rgba(255, 255, 255, 0.75);
@@ -123,7 +123,7 @@ small {
 
 @media(max-width:1100px) {
 
-  .login-container {
+  .login {
     grid-template-columns: 1fr;
   }
 

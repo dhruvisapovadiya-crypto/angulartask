@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-
+//blue print of object 
 export interface User {
   id: number;
   name: string;
@@ -12,11 +12,12 @@ export interface User {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root', // root because k singleton obeject che atle 
 })
 
 export class User{
-  private http=inject(HttpClient);
+  //DI Handle karva mate use kari chi aapde 
+  private http=inject(HttpClient); 
   private apiUrl='https://69e0d98d29c070e6597c24fa.mockapi.io/user';
 
   getUsers():Observable<User[]>{
