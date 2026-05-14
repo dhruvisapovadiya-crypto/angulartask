@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 })
 export class Dashboard {
    username = '';
+   email=''
 
   ngOnInit(){
     this.username = localStorage.getItem('username') || '';

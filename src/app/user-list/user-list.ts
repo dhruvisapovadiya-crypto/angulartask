@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AddUser } from '../add-user/add-user';
 import { RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
-import { ChangeDetectorRef } from '@angular/core'; //UI ne refresh karava mate use kari chi aapde aa 
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-user-list',
@@ -15,19 +15,18 @@ import { ChangeDetectorRef } from '@angular/core'; //UI ne refresh karava mate u
   styleUrl: './user-list.css',
 })
 export class UserList implements OnInit {
-  showAddForm = false; //false atle k pehla dirct form nathi batavu atle 
+  showAddForm = false;
   http = inject(HttpClient);
   cdr = inject(ChangeDetectorRef);
-
-  users: any[] = []; //users store aaya thai 
-
+  
+  users: any[] = [];
   reporteeList: string[] = [];
   editIndex: number = -1;
   oldUser: any = null;
   editingUser: any = null;
   changeRequests: any[] = [];
-  isApproving: boolean = false; // jyare request aave and approve thai tyre loading jevu animation aave ena mate 
-  isRejecting: boolean = false; // jyare request aave and reject  thai tyre loading jevu animation aave ena mate 
+  isApproving: boolean = false;
+  isRejecting: boolean = false;
 
   ngOnInit() {
     this.getUsers();
@@ -39,11 +38,9 @@ export class UserList implements OnInit {
     this.showAddForm = false;
   }
   getUsers(): void {
-    
     this.http.get<any[]>(
       'https://69e0d98d29c070e6597c24fa.mockapi.io/user'
     ).subscribe({
-
       next: (result) => {
         this.users = result.reverse();
         this.reporteeList = [
@@ -63,9 +60,33 @@ export class UserList implements OnInit {
 
   editUser(index: number) {
     this.editIndex = index;
-    this.oldUser = { ...this.users[index] };
-    this.editingUser = { ...this.users[index] };
+    this.oldUser = {
+      ...this.users[index],
+      reportee: [...(this.users[index].reportee || [])]
+    };
+    this.editingUser = {
+      ...this.users[index],
+      reportee: [...(this.users[index].reportee || [])]
+    };
+    this.reporteeList = this.users
+      .filter(user => user.name !== this.editingUser.name)
+      .map(user => user.name);
+
     this.cdr.detectChanges();
+  }
+
+  toggleReportee(name: string, event: any) {
+    if (!this.editingUser.reportee) {
+      this.editingUser.reportee = [];
+    }
+
+    if (event.target.checked) {
+      this.editingUser.reportee.push(name);
+    } else {
+      this.editingUser.reportee = this.editingUser.reportee.filter(
+        (r: string) => r !== name
+      );
+    }
   }
 
   saveUser(index: number) {
@@ -74,7 +95,7 @@ export class UserList implements OnInit {
     }
 
     const user = this.editingUser;
-    const changes: any[] = []; // changes aave  e aa array ma aavse 
+    const changes: any[] = [];
 
     if (this.oldUser.name !== user.name) {
       changes.push({
@@ -112,12 +133,25 @@ export class UserList implements OnInit {
       this.changeRequests.push({
         userIndex: index,
         userId: user.id,
-        oldData: { ...this.oldUser },
-        newData: { ...user },
-        changes: changes
+        oldData: {
+          ...this.oldUser,
+          reportee: [...(this.oldUser.reportee || [])]
+        },
+        newData: {
+          ...user,
+          reportee: [...(user.reportee || [])]
+        },
+        changes: changes,
+        status: 'Pending'
       });
-      Swal.fire('Request Created', 'Edit request generated. Please approve from dropdown.', 'success');
+
+      Swal.fire(
+        'Request Created',
+        'Edit request generated. Please approve from dropdown.',
+        'success'
+      );
     }
+
     this.editIndex = -1;
     this.oldUser = null;
     this.editingUser = null;
@@ -125,6 +159,7 @@ export class UserList implements OnInit {
 
   approveRequest(req: any, reqIndex: number) {
     this.isApproving = true;
+
     const approvedUser = {
       ...req.newData,
       status: 'Approved'
@@ -137,9 +172,13 @@ export class UserList implements OnInit {
       next: () => {
         setTimeout(() => {
           this.isApproving = false;
+
           this.users[req.userIndex] = approvedUser;
-          this.changeRequests.splice(reqIndex, 1);
+
+          req.status = 'Approved';
+
           this.cdr.detectChanges();
+
           Swal.fire(
             'Approved',
             'Changes Approved Successfully',
@@ -156,6 +195,7 @@ export class UserList implements OnInit {
 
   rejectRequest(req: any, reqIndex: number) {
     this.isRejecting = true;
+
     const rejectedUser = {
       ...req.oldData,
       status: 'Rejected'
@@ -168,12 +208,16 @@ export class UserList implements OnInit {
       next: () => {
         setTimeout(() => {
           this.isRejecting = false;
+
           this.users[req.userIndex] = rejectedUser;
-          this.changeRequests.splice(reqIndex, 1);
+
+          req.status = 'Rejected';
+
           this.cdr.detectChanges();
+
           Swal.fire(
             'Rejected',
-            'Sorry , Your Edit request rejected so your changes not displayed ',
+            'Sorry, Your Edit request rejected so your changes not displayed',
             'warning'
           );
         }, 2000);
@@ -184,11 +228,13 @@ export class UserList implements OnInit {
       }
     });
   }
+
   getRequestCount(userId: any) {
     return this.changeRequests.filter(
       (req: any) => req.userId == userId
     ).length;
   }
+
   deleteUser(id: string) {
     Swal.fire({
       title: 'Delete User?',
@@ -204,16 +250,19 @@ export class UserList implements OnInit {
         ).subscribe({
           next: () => {
             this.cdr.detectChanges();
+
             Swal.fire({
               icon: 'success',
               title: 'Deleted Successfully',
               timer: 1000,
               showConfirmButton: false
             });
+
             window.location.reload();
           },
           error: (err) => {
             console.log(err);
+
             Swal.fire({
               icon: 'error',
               title: 'Delete Failed'

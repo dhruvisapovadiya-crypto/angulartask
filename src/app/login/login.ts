@@ -18,7 +18,6 @@ export class Login {
   };
 
   constructor(private router: Router) { }
-
   login(form: NgForm) {
 
     if (form.valid) {
@@ -27,12 +26,7 @@ export class Login {
         'username',
         this.user.name
       );
-
       this.router.navigate(['/dashboard']);
-
     }
-
   }
-
-
 }
