@@ -172,7 +172,6 @@ export class UserList implements OnInit {
       next: () => {
         setTimeout(() => {
           this.isApproving = false;
-
           this.users[req.userIndex] = approvedUser;
 
           req.status = 'Approved';
@@ -250,19 +249,16 @@ export class UserList implements OnInit {
         ).subscribe({
           next: () => {
             this.cdr.detectChanges();
-
             Swal.fire({
               icon: 'success',
               title: 'Deleted Successfully',
               timer: 1000,
               showConfirmButton: false
             });
-
             window.location.reload();
           },
           error: (err) => {
             console.log(err);
-
             Swal.fire({
               icon: 'error',
               title: 'Delete Failed'

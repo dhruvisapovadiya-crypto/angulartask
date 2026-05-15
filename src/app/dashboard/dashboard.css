@@ -1,36 +1,36 @@
-.dashboard{
+.dashboard {
   min-height: 100vh;
-  background: linear-gradient(135deg,#eff6ff,#dbeafe,#bfdbfe);
+  background: linear-gradient(135deg, #eff6ff, #dbeafe, #bfdbfe);
   padding: 40px;
   color: #0f172a;
 }
 
-
-.hero{
-  background:
-    linear-gradient(135deg,#2563eb,#3b82f6,#60a5fa);
+.hero {
+  background: linear-gradient(135deg, #2563eb, #3b82f6, #60a5fa);
   border-radius: 25px;
   padding: 45px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 25px;
   margin-bottom: 35px;
-  box-shadow: 0 20px 50px rgba(37,99,235,0.25);
+  box-shadow: 0 20px 50px rgba(37, 99, 235, 0.25);
 }
 
-.hero h1{
+.hero h1 {
   font-size: 45px;
   margin-bottom: 15px;
   color: white;
+  line-height: 1.2;
 }
 
-.hero p{
+.hero p {
   color: #e0f2fe;
   max-width: 650px;
   line-height: 30px;
 }
 
-.hero button{
+.hero button {
   padding: 16px 30px;
   border: none;
   border-radius: 14px;
@@ -40,40 +40,40 @@
   cursor: pointer;
   font-weight: bold;
   transition: 0.3s;
-  box-shadow: 0 10px 25px rgba(255,255,255,0.25);
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.25);
+  white-space: nowrap;
 }
 
-.hero button:hover{
+.hero button:hover {
   transform: translateY(-3px);
 }
 
-
-.stats-container{
+.stats-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 25px;
   margin-bottom: 35px;
 }
 
-.stat-card{
-  background: rgba(255,255,255,0.75);
-  backdrop-filter: blur(15px);
+.stat-card {
+  background: rgba(255, 255, 255, 0.75);
   padding: 30px;
   border-radius: 22px;
   display: flex;
   align-items: center;
   gap: 20px;
   transition: 0.3s;
-  border: 1px solid rgba(59,130,246,0.15);
-  box-shadow: 0 15px 35px rgba(37,99,235,0.08);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  box-shadow: 0 15px 35px rgba(37, 99, 235, 0.08);
 }
 
-.stat-card:hover{
+.stat-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 20px 45px rgba(37,99,235,0.15);
+  box-shadow: 0 20px 45px rgba(37, 99, 235, 0.15);
 }
 
-.icon{
+.icon {
+  min-width: 65px;
   width: 65px;
   height: 65px;
   border-radius: 18px;
@@ -84,58 +84,135 @@
   color: white;
 }
 
-.purple{
-  background: linear-gradient(135deg,#2563eb,#3b82f6);
+.purple {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
 }
 
-.blue{
-  background: linear-gradient(135deg,#0ea5e9,#38bdf8);
+.blue {
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
 }
 
-.green{
-  background: linear-gradient(135deg,#0284c7,#0ea5e9);
+.green {
+  background: linear-gradient(135deg, #0284c7, #0ea5e9);
 }
 
-.orange{
-  background: linear-gradient(135deg,#60a5fa,#93c5fd);
+.orange {
+  background: linear-gradient(135deg, #60a5fa, #93c5fd);
 }
 
-.stat-card h3{
+.stat-card h3 {
   color: #64748b;
   margin-bottom: 10px;
   font-size: 16px;
 }
 
-.stat-card p{
+.stat-card p {
   font-size: 35px;
   font-weight: bold;
   color: #0f172a;
+  margin: 0;
 }
 
-@media(max-width:900px){
 
-  .hero{
+@media (max-width: 900px) {
+  .dashboard {
+    padding: 30px;
+  }
+
+  .hero {
     flex-direction: column;
-    gap: 20px;
-    align-items: start;
+    align-items: flex-start;
+    padding: 35px;
   }
 
-  .activity-section{
-    grid-template-columns: 1fr;
+  .hero h1 {
+    font-size: 38px;
   }
 
+  .hero button {
+    width: auto;
+  }
+
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-@media(max-width:768px){
-
-  .dashboard{
+@media (max-width: 768px) {
+  .dashboard {
     padding: 20px;
   }
 
-  .hero h1{
+  .hero {
+    padding: 28px;
+    border-radius: 20px;
+  }
+
+  .hero h1 {
     font-size: 32px;
   }
 
+  .hero p {
+    font-size: 15px;
+    line-height: 26px;
+  }
+
+  .hero button {
+    width: 100%;
+    padding: 14px 20px;
+  }
+
+  .stats-container {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    padding: 24px;
+  }
+
+  .stat-card p {
+    font-size: 30px;
+  }
 }
 
+/* Small Mobile */
+@media (max-width: 480px) {
+  .dashboard {
+    padding: 14px;
+  }
 
+  .hero {
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  .hero h1 {
+    font-size: 26px;
+  }
+
+  .hero p {
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  .stat-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 22px;
+  }
+
+  .icon {
+    width: 55px;
+    min-width: 55px;
+    height: 55px;
+    font-size: 24px;
+  }
+
+  .stat-card h3 {
+    font-size: 14px;
+  }
+
+  .stat-card p {
+    font-size: 28px;
+  }
+}

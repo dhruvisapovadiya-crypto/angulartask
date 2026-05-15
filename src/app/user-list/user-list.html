@@ -60,6 +60,9 @@
                                     (click)="deleteUser(user.id); $event.stopPropagation()">
                                     <i class="bi bi-trash-fill text-danger"></i>
                                 </button>
+                                <button class="btn btn-light border rounded-circle icon-btn" type="button">
+                                   <i class="bi bi-eye-fill text-primary "></i>
+                                </button>
 
                                 <div class="dropdown">
                                     <button class="btn btn-light border rounded-circle icon-btn dropdown-icon"
@@ -136,8 +139,7 @@
                                                     </button>
 
                                                     <button class="btn btn-danger btn-sm flex-fill" type="button"
-                                                        [disabled]="isRejecting"
-                                                        (click)="rejectRequest(req, reqIndex)">
+                                                        [disabled]="isRejecting" (click)="rejectRequest(req, reqIndex)">
                                                         <i class="bi bi-x-circle-fill me-1"></i>
 
                                                         @if (isRejecting) {
