@@ -35,7 +35,6 @@
 
             <div class="col-md-6">
                 <label class="form-label">Reportee</label>
-
                 <div class="dropdown w-100">
                     <button class="form-select text-start" type="button" data-bs-toggle="dropdown">
                         {{ user.reportee.length ? user.reportee.join(', ') : 'Select Reportee' }}
@@ -62,12 +61,10 @@
                 <button type="button" class="btn btn-light border px-4" (click)="close()">
                     Cancel
                 </button>
-
                 <button type="submit" class="btn btn-dark px-4" [disabled]="userForm.invalid || user.reportee.length === 0 || isAdding">
                     Add User
                 </button>
             </div>
-
         </div>
     </form>
 </div>
