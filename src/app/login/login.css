@@ -11,11 +11,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
 }
 
 .login {
-  min-height: 600px;
+  min-height: 550px;
   max-width: 1300px;
   background: rgba(255, 255, 255, 0.75);
   border-radius: 30px;
@@ -30,7 +30,8 @@
 .login-image {
   width: 100%;
   max-width: 520px;
-  object-fit: contain;
+  object-fit: cover;
+  height: 100%;
   display: block;
   margin: 0 auto 30px;
   animation: floatImage 4s ease-in-out infinite;
@@ -154,4 +155,68 @@ small {
     flex-direction: column;
   }
 
+}
+
+
+
+/* dark  mode mate */
+.theme-toggle{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(12px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  transition: 0.3s;
+  z-index: 1000;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.theme-toggle:hover{
+  transform: scale(1.08) rotate(8deg);
+}
+
+.dark-mode{
+  background: linear-gradient(135deg,#020617,#0f172a);
+}
+
+.dark-mode .login{
+  background: #111827;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+
+.dark-mode .right-side{
+  background: #111827;
+  color: white;
+}
+
+.dark-mode h2,
+.dark-mode p,
+.dark-mode label{
+  color: white;
+}
+
+.dark-mode input{
+  background: #1e293b;
+  color: white;
+  border: 1px solid #334155;
+}
+
+.dark-mode input::placeholder{
+  color: #94a3b8;
+}
+
+.dark-mode .sub-title{
+  color: #cbd5e1;
 }

@@ -17,6 +17,12 @@ export class Login {
     password: ''
   };
 
+  isDark = false;
+
+  changeMode() {
+    this.isDark = !this.isDark;
+  }
+
   constructor(private router: Router) { }
   login(form: NgForm) {
 

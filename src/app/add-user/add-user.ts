@@ -55,17 +55,29 @@ export class AddUser implements OnInit {
     });
   }
 
-//User ne dropdown thi array ma add karva mate 
+  //User ne dropdown thi array ma add karva mate 
 
-toggleReportee(reportee: string, event: any) {
-  if (event.target.checked) {
-    this.user.reportee.push(reportee);
-  } else {
-    this.user.reportee = this.user.reportee.filter(
-      (r: string) => r != reportee
-    );
+  toggleReportee(reportee: string, event: any) {
+    if (event.target.checked) {
+      this.user.reportee.push(reportee);
+    } else {
+      this.user.reportee = this.user.reportee.filter(
+        (r: string) => r != reportee
+      );
+    }
   }
-}
+
+  toggleSelectAll(event: any) {
+    if (event.target.checked) {
+      this.user.reportee = [...this.reporteeList];
+    } else {
+      this.user.reportee = [];
+    }
+  }
+
+  isAllSelected(): boolean {
+    return this.user.reportee.length === this.reporteeList.length;
+  }
 
   addUser() {
     if (!this.user.name || !this.user.email || !this.user.role || this.user.reportee.length === 0) {

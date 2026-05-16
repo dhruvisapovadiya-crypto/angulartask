@@ -61,7 +61,7 @@
                                     <i class="bi bi-trash-fill text-danger"></i>
                                 </button>
                                 <button class="btn btn-light border rounded-circle icon-btn" type="button">
-                                   <i class="bi bi-eye-fill text-primary "></i>
+                                    <i class="bi bi-eye-fill text-primary "></i>
                                 </button>
 
                                 <div class="dropdown">
@@ -186,7 +186,17 @@
 
                         <td>
                             @if (editIndex == i) {
+
                             <select [(ngModel)]="editingUser.role" class="form-select" name="role">
+
+                                <option value="" disabled>
+                                    {{
+                                    editingUser.role
+                                    ? editingUser.role
+                                    : 'Select Role'
+                                    }}
+                                </option>
+
                                 <option value="Frontend Developer">Frontend Developer</option>
                                 <option value="QA Tester">QA Tester</option>
                                 <option value="Backend Developer">Backend Developer</option>
@@ -196,12 +206,16 @@
                                 <option value="Employee">Employee</option>
                                 <option value="HR">HR</option>
                                 <option value="Team Lead">Team Lead</option>
+
                             </select>
+
                             }
                             @else {
+
                             <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill">
                                 {{ user.role }}
                             </span>
+
                             }
                         </td>
 

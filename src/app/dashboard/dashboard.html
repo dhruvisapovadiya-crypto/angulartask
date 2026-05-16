@@ -1,52 +1,73 @@
 <app-header></app-header>
 
 <div class="dashboard">
-    <div class="hero">
-        <div>
-            <h1>
-                Welcome Back, {{username}} 
-            </h1>
-        </div>
 
-        <button routerLink="/user-list">
-            Explore More
-        </button>
-
+  <div class="welcome-card">
+    <div>
+      <p class="tag">Welcome Back!!</p>
+      <h1>Hello, {{ username }}</h1>
+      <p class="desc">
+        Manage users, track activity and control your workspace from one place.
+      </p>
     </div>
-    <div class="stats-container">
-        <div class="stat-card">
-            <div class="icon purple">
-                &#128100;
-            </div>
 
-            <div>
-                <h3>Total Users</h3>
-                <p>1,250</p>
-            </div>
+    <button routerLink="/user-list">
+      View Users
+    </button>
+  </div>
 
-        </div>
-        <div class="stat-card">
-            <div class="icon green">
-                &#128193;
-            </div>
-
-            <div>
-                <h3>Projects</h3>
-                <p>25+</p>
-            </div>
-
-        </div>
-
-        <div class="stat-card">
-            <div class="icon orange">
-               &#128200;
-            </div>
-            <div>
-                <h3>Growth</h3>
-                <p>78%</p>
-            </div>
-        </div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h3>Total Users</h3>
+      <h2>120</h2>
+      <p>+12% this month</p>
     </div>
+
+    <div class="stat-card">
+      <h3>Active Users</h3>
+      <h2>89</h2>
+      <p>Currently active</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Pending Requests</h3>
+      <h2>14</h2>
+      <p>Need approval</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Departments</h3>
+      <h2>8</h2>
+      <p>Company teams</p>
+    </div>
+
+  </div>
+
+  <div class="content-grid">
+
+    <div class="panel">
+      <h2>Quick Actions</h2>
+
+      <div class="action-list">
+        <button routerLink="/user-list">Manage Users</button>
+        <button routerLink="/add-user">Add New User</button>
+        <button>View Reports</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Recent Activity</h2>
+
+      <div class="activity">
+        <p>✅ New user added</p>
+        <p>📝 Profile updated</p>
+        <p>⏳ Request pending</p>
+        <p>🚀 Dashboard opened</p>
+      </div>
+    </div>
+
+  </div>
+
 </div>
 
 <app-footer></app-footer>

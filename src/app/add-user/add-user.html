@@ -22,37 +22,53 @@
 
             <div class="col-md-6">
                 <label class="form-label">Role</label>
-                <select class="form-select" name="role" [(ngModel)]="user.role" required>
-                    <option value="" disabled>Select Role</option>
+                <select [(ngModel)]="user.role" class="form-select" name="role">
+                    <option value="Frontend Developer">Frontend Developer</option>
+                    <option value="QA Tester">QA Tester</option>
+                    <option value="Backend Developer">Backend Developer</option>
                     <option value="Admin">Admin</option>
+                    <option value="UI/UX Designer">UI/UX Designer</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Employee">Employee</option>
                     <option value="HR">HR</option>
-                    <option value="Developer">Developer</option>
-                    <option value="Tester">Tester</option>
-                    <option value="CEO">CEO</option>
-                    <option value="RM">RM</option>
+                    <option value="Team Lead">Team Lead</option>
                 </select>
             </div>
 
             <div class="col-md-6">
                 <label class="form-label">Reportee</label>
+
                 <div class="dropdown w-100">
                     <button class="form-select text-start" type="button" data-bs-toggle="dropdown">
                         {{ user.reportee.length ? user.reportee.join(', ') : 'Select Reportee' }}
                     </button>
 
                     <ul class="dropdown-menu w-100 p-2">
+
+                        <!-- Select All -->
+                        <li>
+                            <label class="dropdown-item fw-bold">
+                                <input type="checkbox" class="form-check-input me-2" [checked]="isAllSelected()"
+                                    (change)="toggleSelectAll($event)">
+                                Select All
+                            </label>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        
                         @for (reportee of reporteeList; track reportee) {
                         <li>
                             <label class="dropdown-item">
-                                <input
-                                    type="checkbox"
-                                    class="form-check-input me-2"
+                                <input type="checkbox" class="form-check-input me-2"
                                     [checked]="user.reportee.includes(reportee)"
                                     (change)="toggleReportee(reportee, $event)">
                                 {{ reportee }}
                             </label>
                         </li>
                         }
+
                     </ul>
                 </div>
             </div>
@@ -61,7 +77,8 @@
                 <button type="button" class="btn btn-light border px-4" (click)="close()">
                     Cancel
                 </button>
-                <button type="submit" class="btn btn-dark px-4" [disabled]="userForm.invalid || user.reportee.length === 0 || isAdding">
+                <button type="submit" class="btn btn-dark px-4"
+                    [disabled]="userForm.invalid || user.reportee.length === 0 || isAdding">
                     Add User
                 </button>
             </div>

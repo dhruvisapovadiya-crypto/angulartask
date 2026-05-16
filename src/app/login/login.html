@@ -1,14 +1,18 @@
-<div class="main">
+<div class="main" [class.dark-mode]="isDark">
+  <button class="theme-toggle" (click)="changeMode()">
 
+    @if (isDark) {
+    ☀️
+    } @else {
+    🌙
+    }
+
+  </button>
   <div class="login">
 
     <div class="left-side">
 
-      <img
-        src="assets/login.png"
-        alt="Dashboard"
-        class="login-image"
-      >
+      <img src="assets/login.png" alt="Dashboard" class="login-image">
 
     </div>
 
@@ -26,16 +30,8 @@
 
           <label>Full Name</label>
 
-          <input
-            type="text"
-            name="name"
-            [(ngModel)]="user.name"
-            required
-            minlength="3"
-            pattern="[a-zA-Z ]*"
-            #name="ngModel"
-            placeholder="Enter your name"
-          >
+          <input type="text" name="name" [(ngModel)]="user.name" required minlength="3" pattern="[a-zA-Z ]*"
+            #name="ngModel" placeholder="Enter your name">
 
           <small *ngIf="name.errors?.['required'] && name.touched">
             Name is required
@@ -55,15 +51,8 @@
 
           <label>Email</label>
 
-          <input
-            type="email"
-            name="email"
-            [(ngModel)]="user.email"
-            required
-            email
-            #email="ngModel"
-            placeholder="Enter your email"
-          >
+          <input type="email" name="email" [(ngModel)]="user.email" required email #email="ngModel"
+            placeholder="Enter your email">
 
           <small *ngIf="email.errors?.['required'] && email.touched">
             Email required
@@ -79,16 +68,8 @@
 
           <label>Password</label>
 
-          <input
-            type="password"
-            name="password"
-            [(ngModel)]="user.password"
-            required
-            minlength="6"
-            pattern="^(?=.*[A-Z])(?=.*[0-9]).*$"
-            #password="ngModel"
-            placeholder="Enter password"
-          >
+          <input type="password" name="password" [(ngModel)]="user.password" required minlength="6"
+            pattern="^(?=.*[A-Z])(?=.*[0-9]).*$" #password="ngModel" placeholder="Enter password">
 
           <small *ngIf="password.errors?.['required'] && password.touched">
             Password required
@@ -104,10 +85,7 @@
 
         </div>
 
-        <button
-          type="submit"
-          [disabled]="loginForm.invalid"
-        >
+        <button type="submit" [disabled]="loginForm.invalid">
           Login Now
         </button>
 

@@ -1,5 +1,4 @@
-
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -7,39 +6,39 @@
 
 
 
-.header{
+.header {
   width: 100%;
   height: 90px;
-  background: #111827;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb, #3b82f6);
   padding: 0 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #334155;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.25);
 }
 
 
 
-.logo{
+.logo {
   color: white;
   font-size: 32px;
   font-weight: bold;
 }
 
 
-.right-side{
+.right-side {
   display: flex;
   align-items: center;
   gap: 25px;
 }
 
-/* Logout Button */
 
-.logout-btn{
+.logout-btn {
   padding: 12px 24px;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(to right,#ef4444,#dc2626);
+  background: linear-gradient(to right, #ef4444, #dc2626);
   color: white;
   font-size: 15px;
   cursor: pointer;
@@ -50,20 +49,24 @@
   padding: 12px 24px;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(to right,#6366f1,#8b5cf6);
+  background: rgba(0, 0, 0, 0.30);
   color: white;
   font-size: 15px;
   cursor: pointer;
   transition: 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 120px;
 }
 
-.logout-btn:hover{
+.logout-btn:hover {
   transform: scale(1.05);
 }
 
 /* Profile */
 
-.profile{
+.profile {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -73,43 +76,89 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: linear-gradient(to right,#6366f1,#8b5cf6);
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   color: white;
   font-size: 22px;
   font-weight: bold;
+
+  border: 1px solid rgba(255,255,255,0.2);
 }
 
-.profile h4{
+.profile h4 {
   color: white;
   margin-bottom: 4px;
 }
 
-.profile p{
+.profile p {
   color: #94a3b8;
   font-size: 14px;
 }
 
-@media(max-width:768px){
-
-  .header{
-    padding: 0 20px;
+@media (max-width: 768px) {
+  .header {
+    height: auto;
+    padding: 18px 20px;
+    flex-direction: column;
+    gap: 18px;
   }
 
-  .logo{
-    font-size: 24px;
+  .logo {
+    font-size: 26px;
+    text-align: center;
   }
 
-  .logout-btn{
+  .right-side {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .user-list,
+  .logout-btn {
     padding: 10px 18px;
     font-size: 14px;
   }
 
-  .profile h4,
-  .profile p{
-    display: none;
+  .profile-circle {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 16px 12px;
   }
 
+  .logo {
+    font-size: 22px;
+  }
+
+  .right-side {
+    gap: 10px;
+  }
+
+  .user-list,
+  .logout-btn {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .profile {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .profile-circle {
+    width: 42px;
+    height: 42px;
+  }
 }

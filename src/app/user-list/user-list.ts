@@ -18,7 +18,7 @@ export class UserList implements OnInit {
   showAddForm = false;
   http = inject(HttpClient);
   cdr = inject(ChangeDetectorRef);
-  
+
   users: any[] = [];
   reporteeList: string[] = [];
   editIndex: number = -1;
@@ -228,9 +228,11 @@ export class UserList implements OnInit {
     });
   }
 
-  getRequestCount(userId: any) {
+  getRequestCount(userId: string): number {
     return this.changeRequests.filter(
-      (req: any) => req.userId == userId
+      req =>
+        req.userId == userId &&
+        (!req.status || req.status === 'Pending')
     ).length;
   }
 
