@@ -28,9 +28,31 @@ export class UserList implements OnInit {
   isApproving: boolean = false;
   isRejecting: boolean = false;
 
-  ngOnInit() {
-    this.getUsers();
+  isDarkMode = false;
+
+// first 2 function changes 
+ngOnInit() {
+  this.getUsers();
+
+  const savedTheme = localStorage.getItem('userListTheme');
+
+  if (savedTheme === 'dark') {
+    this.isDarkMode = true;
+  } else {
+    this.isDarkMode = false;
   }
+}
+
+toggleTheme() {
+  this.isDarkMode = !this.isDarkMode;
+
+  if (this.isDarkMode) {
+    localStorage.setItem('userListTheme', 'dark');
+  } else {
+    localStorage.setItem('userListTheme', 'light');
+  }
+}
+
   openAddForm() {
     this.showAddForm = true;
   }

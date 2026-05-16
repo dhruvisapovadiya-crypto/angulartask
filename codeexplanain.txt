@@ -1,8 +1,2 @@
--> Light dark toggle for entire website or only user page 
--> Dashboard ma kaik add kaevu che 
--> maker checker 
--> profile view ma basic details nu form aapi saki 
--> API resposnse badha check kari saki 
+-> Light dark toggle for entire website or only user page
 -> View ma evu kari saki k ema badhi history aave e store thay 
--> Reportee vadi column ma kari saki kaik change 
--> More Rxjs operators 

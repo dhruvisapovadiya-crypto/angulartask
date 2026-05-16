@@ -1,277 +1,273 @@
-<div class="container-fluid py-4 bg-light min-vh-100">
+<div class="container-fluid min-vh-100 user-list-page" [class.user-list-dark]="isDarkMode">
     <div class="card shadow-lg border-0 rounded-4">
-        <div class="card-header bg-white p-4">
+        <div class="card-header bg-white px-3 py-4">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h2 class="fw-bold mb-1">
                         User Management
                     </h2>
-                    <p class="text-muted mb-0">
+                    <p class="text-muted mb-3">
                         Manage existing users
                     </p>
                 </div>
 
-                <button class="btn btn-dark rounded-3 px-4" routerLink="/add-user">
-                    <i class="bi bi-plus-lg me-2"></i>
-                    Add User
-                </button>
+                <div class="d-flex gap-2">
+                    <button class="theme-toggle" (click)="toggleTheme()">
+                        @if (isDarkMode) {
+                        ☀️ Light
+                        } @else {
+                        🌙 Dark
+                        }
+                    </button>
 
-                @if (showAddForm) {
-                <app-add-user [reporteeList]="reporteeList" (closeForm)="closeAddForm()" (userAdded)="getUsers()">
-                </app-add-user>
-                }
+                    <button class="btn btn-dark rounded-3 px-4 " routerLink="/add-user">
+                        <i class="bi bi-plus-lg me-2"></i>
+                        Add User
+                    </button>
+
+                    @if (showAddForm) {
+                    <app-add-user [reporteeList]="reporteeList" (closeForm)="closeAddForm()" (userAdded)="getUsers()">
+                    </app-add-user>
+                    }
+                </div>
             </div>
-        </div>
 
-        <div class="table-responsive">
-            <table class="table align-middle mb-0 table-striped">
-                <thead class="table-dark">
-                    <tr>
-                        <th class="ps-4">Actions</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Reportee</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
+            <div class="table-responsive">
+                <table class="table align-middle mb-0 table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="ps-4">Actions</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Reportee</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    @for (user of users; track user.id; let i = $index) {
-                    <tr>
-                        <td class="ps-4">
-                            <div class="d-flex gap-2 align-items-center">
+                    <tbody>
+                        @for (user of users; track user.id; let i = $index) {
+                        <tr>
+                            <td class="ps-4">
+                                <div class="d-flex gap-2 align-items-center">
 
-                                @if (editIndex != i) {
-                                <button class="btn btn-light border rounded-circle icon-btn" type="button"
-                                    (click)="editUser(i)">
-                                    <i class="bi bi-pencil-fill text-success"></i>
-                                </button>
-                                }
+                                    @if (editIndex != i) {
+                                    <button class="btn btn-light border rounded-circle icon-btn" type="button"
+                                        (click)="editUser(i)">
+                                        <i class="bi bi-pencil-fill text-success"></i>
+                                    </button>
+                                    }
 
-                                @if (editIndex == i) {
-                                <button class="btn btn-success save-btn" type="button" (click)="saveUser(i)">
-                                    <i class="bi bi-check-lg me-1"></i>
-                                    Save
-                                </button>
-                                }
+                                    @if (editIndex == i) {
+                                    <button class="btn btn-success save-btn" type="button" (click)="saveUser(i)">
+                                        <i class="bi bi-check-lg me-1"></i>
+                                        Save
+                                    </button>
+                                    }
 
-                                <button class="btn btn-light border rounded-circle icon-btn" type="button"
-                                    (click)="deleteUser(user.id); $event.stopPropagation()">
-                                    <i class="bi bi-trash-fill text-danger"></i>
-                                </button>
-                                <button class="btn btn-light border rounded-circle icon-btn" type="button">
-                                    <i class="bi bi-eye-fill text-primary "></i>
-                                </button>
-
-                                <div class="dropdown">
-                                    <button class="btn btn-light border rounded-circle icon-btn dropdown-icon"
-                                        type="button" data-bs-toggle="dropdown">
-                                        <i class="bi bi-chevron-down fw-bold"></i>
-
-                                        @if (getRequestCount(user.id) > 0) {
-                                        <span class="request-count">
-                                            {{ getRequestCount(user.id) }}
-                                        </span>
-                                        }
+                                    <button class="btn btn-light border rounded-circle icon-btn" type="button"
+                                        (click)="deleteUser(user.id); $event.stopPropagation()">
+                                        <i class="bi bi-trash-fill text-danger"></i>
+                                    </button>
+                                    <button class="btn btn-light border rounded-circle icon-btn" type="button">
+                                        <i class="bi bi-eye-fill text-primary "></i>
                                     </button>
 
-                                    <ul class="dropdown-menu border-0 shadow rounded-4 p-3 request-dropdown"
-                                        data-bs-auto-close="outside">
+                                    <div class="dropdown">
+                                        <button class="btn btn-light border rounded-circle icon-btn dropdown-icon"
+                                            type="button" data-bs-toggle="dropdown">
+                                            <i class="bi bi-chevron-down fw-bold"></i>
 
-                                        @if (getRequestCount(user.id) === 0) {
-                                        <li class="text-center text-muted small">
-                                            No Requests Found
-                                        </li>
-                                        }
+                                            @if (getRequestCount(user.id) > 0) {
+                                            <span class="request-count">
+                                                {{ getRequestCount(user.id) }}
+                                            </span>
+                                            }
+                                        </button>
 
-                                        @for (req of changeRequests; track $index; let reqIndex = $index) {
-                                        @if (req.userId == user.id) {
-                                        <li class="mb-3">
-                                            <div class="request-card">
+                                        <ul class="dropdown-menu border-0 shadow rounded-4 p-3 request-dropdown"
+                                            data-bs-auto-close="outside">
 
-                                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                                    <h6 class="fw-bold text-dark mb-0">
-                                                        Edit Request
-                                                    </h6>
+                                            @if (getRequestCount(user.id) === 0) {
+                                            <li class="text-center text-muted small">
+                                                No Requests Found
+                                            </li>
+                                            }
 
-                                                    @if (req.status == 'Approved') {
-                                                    <span class="badge bg-success">
-                                                        Approved
-                                                    </span>
+                                            @for (req of changeRequests; track $index; let reqIndex = $index) {
+                                            @if (req.userId == user.id) {
+                                            <li class="mb-3">
+                                                <div class="request-card">
+
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <h6 class="fw-bold text-dark mb-0">
+                                                            Edit Request
+                                                        </h6>
+
+                                                        @if (req.status == 'Approved') {
+                                                        <span class="badge bg-success">
+                                                            Approved
+                                                        </span>
+                                                        }
+
+                                                        @if (req.status == 'Rejected') {
+                                                        <span class="badge bg-danger">
+                                                            Rejected
+                                                        </span>
+                                                        }
+                                                    </div>
+
+                                                    @for (change of req.changes; track $index) {
+                                                    <div class="change-box mb-2">
+                                                        <p class="mb-1 fw-semibold text-primary">
+                                                            {{ change.field }}
+                                                        </p>
+
+                                                        <p class="mb-1 old-text">
+                                                            Old: {{ change.oldValue }}
+                                                        </p>
+
+                                                        <p class="mb-0 new-text">
+                                                            New: {{ change.newValue }}
+                                                        </p>
+                                                    </div>
                                                     }
 
-                                                    @if (req.status == 'Rejected') {
-                                                    <span class="badge bg-danger">
-                                                        Rejected
-                                                    </span>
+                                                    @if (!req.status || req.status == 'Pending') {
+                                                    <div class="d-flex gap-2 mt-3">
+                                                        <button class="btn btn-success btn-sm flex-fill" type="button"
+                                                            [disabled]="isApproving"
+                                                            (click)="approveRequest(req, reqIndex)">
+                                                            <i class="bi bi-check-circle-fill me-1"></i>
+
+                                                            @if (isApproving) {
+                                                            Approving...
+                                                            } @else {
+                                                            Approve
+                                                            }
+                                                        </button>
+
+                                                        <button class="btn btn-danger btn-sm flex-fill" type="button"
+                                                            [disabled]="isRejecting"
+                                                            (click)="rejectRequest(req, reqIndex)">
+                                                            <i class="bi bi-x-circle-fill me-1"></i>
+
+                                                            @if (isRejecting) {
+                                                            Rejecting...
+                                                            } @else {
+                                                            Reject
+                                                            }
+                                                        </button>
+                                                    </div>
                                                     }
+
                                                 </div>
+                                            </li>
+                                            }
+                                            }
 
-                                                @for (change of req.changes; track $index) {
-                                                <div class="change-box mb-2">
-                                                    <p class="mb-1 fw-semibold text-primary">
-                                                        {{ change.field }}
-                                                    </p>
+                                        </ul>
+                                    </div>
 
-                                                    <p class="mb-1 old-text">
-                                                        Old: {{ change.oldValue }}
-                                                    </p>
+                                </div>
+                            </td>
 
-                                                    <p class="mb-0 new-text">
-                                                        New: {{ change.newValue }}
-                                                    </p>
-                                                </div>
-                                                }
+                            <td>
+                                @if (editIndex == i) {
+                                <input [(ngModel)]="editingUser.name" class="form-control">
+                                }
+                                @else {
+                                <span class="fw-semibold">
+                                    {{ user.name }}
+                                </span>
+                                }
+                            </td>
 
-                                                @if (!req.status || req.status == 'Pending') {
-                                                <div class="d-flex gap-2 mt-3">
-                                                    <button class="btn btn-success btn-sm flex-fill" type="button"
-                                                        [disabled]="isApproving"
-                                                        (click)="approveRequest(req, reqIndex)">
-                                                        <i class="bi bi-check-circle-fill me-1"></i>
+                            <td>
+                                @if (editIndex == i) {
+                                <input [(ngModel)]="editingUser.email" class="form-control">
+                                }
+                                @else {
+                                <span class="text-muted">
+                                    {{ user.email }}
+                                </span>
+                                }
+                            </td>
 
-                                                        @if (isApproving) {
-                                                        Approving...
-                                                        } @else {
-                                                        Approve
-                                                        }
-                                                    </button>
+                            <td>
+                                @if (editIndex == i) {
+                                <select [(ngModel)]="editingUser.role" class="form-select" name="role">
+                                    <option value="Frontend Developer">Frontend Developer</option>
+                                    <option value="QA Tester">QA Tester</option>
+                                    <option value="Backend Developer">Backend Developer</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="UI/UX Designer">UI/UX Designer</option>
+                                    <option value="Manager">Manager</option>
+                                    <option value="Employee">Employee</option>
+                                    <option value="HR">HR</option>
+                                    <option value="Team Lead">Team Lead</option>
+                                </select>
+                                }
+                                @else {
+                                <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill">
+                                    {{ user.role }}
+                                </span>
+                                }
+                            </td>
 
-                                                    <button class="btn btn-danger btn-sm flex-fill" type="button"
-                                                        [disabled]="isRejecting" (click)="rejectRequest(req, reqIndex)">
-                                                        <i class="bi bi-x-circle-fill me-1"></i>
+                            <td>
+                                @if (editIndex == i) {
+                                <div class="dropdown">
+                                    <button class="btn btn-light border dropdown-toggle w-100 text-start" type="button"
+                                        data-bs-toggle="dropdown">
+                                        Select Reportee
+                                    </button>
 
-                                                        @if (isRejecting) {
-                                                        Rejecting...
-                                                        } @else {
-                                                        Reject
-                                                        }
-                                                    </button>
-                                                </div>
-                                                }
+                                    <ul class="dropdown-menu p-3 w-100" data-bs-auto-close="outside">
+                                        @for (name of reporteeList; track name) {
+                                        <li>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    [checked]="editingUser.reportee?.includes(name)"
+                                                    (change)="toggleReportee(name, $event)" id="{{ name }}">
 
+                                                <label class="form-check-label" for="{{ name }}">
+                                                    {{ name }}
+                                                </label>
                                             </div>
                                         </li>
                                         }
-                                        }
-
                                     </ul>
                                 </div>
+                                }
+                                @else {
+                                <span class="reportee-badge bg-secondary-subtle text-dark">
+                                    {{ user.reportee }}
+                                </span>
+                                }
+                            </td>
 
-                            </div>
-                        </td>
-
-                        <td>
-                            @if (editIndex == i) {
-                            <input [(ngModel)]="editingUser.name" class="form-control">
-                            }
-                            @else {
-                            <span class="fw-semibold">
-                                {{ user.name }}
-                            </span>
-                            }
-                        </td>
-
-                        <td>
-                            @if (editIndex == i) {
-                            <input [(ngModel)]="editingUser.email" class="form-control">
-                            }
-                            @else {
-                            <span class="text-muted">
-                                {{ user.email }}
-                            </span>
-                            }
-                        </td>
-
-                        <td>
-                            @if (editIndex == i) {
-
-                            <select [(ngModel)]="editingUser.role" class="form-select" name="role">
-
-                                <option value="" disabled>
-                                    {{
-                                    editingUser.role
-                                    ? editingUser.role
-                                    : 'Select Role'
-                                    }}
-                                </option>
-
-                                <option value="Frontend Developer">Frontend Developer</option>
-                                <option value="QA Tester">QA Tester</option>
-                                <option value="Backend Developer">Backend Developer</option>
-                                <option value="Admin">Admin</option>
-                                <option value="UI/UX Designer">UI/UX Designer</option>
-                                <option value="Manager">Manager</option>
-                                <option value="Employee">Employee</option>
-                                <option value="HR">HR</option>
-                                <option value="Team Lead">Team Lead</option>
-
-                            </select>
-
-                            }
-                            @else {
-
-                            <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill">
-                                {{ user.role }}
-                            </span>
-
-                            }
-                        </td>
-
-                        <td>
-                            @if (editIndex == i) {
-                            <div class="dropdown">
-                                <button class="btn btn-light border dropdown-toggle w-100 text-start" type="button"
-                                    data-bs-toggle="dropdown">
-                                    Select Reportee
-                                </button>
-
-                                <ul class="dropdown-menu p-3 w-100" data-bs-auto-close="outside">
-                                    @for (name of reporteeList; track name) {
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                [checked]="editingUser.reportee?.includes(name)"
-                                                (change)="toggleReportee(name, $event)" id="{{ name }}">
-
-                                            <label class="form-check-label" for="{{ name }}">
-                                                {{ name }}
-                                            </label>
-                                        </div>
-                                    </li>
-                                    }
-                                </ul>
-                            </div>
-                            }
-                            @else {
-                            <span class="reportee-badge bg-secondary-subtle text-dark">
-                                {{ user.reportee }}
-                            </span>
-                            }
-                        </td>
-
-                        <td>
-                            @if (user.status == 'Approved') {
-                            <span class="badge bg-success">
-                                Approved
-                            </span>
-                            }
-                            @else if (user.status == 'Rejected') {
-                            <span class="badge bg-danger">
-                                Rejected
-                            </span>
-                            }
-                            @else {
-                            <span class="badge bg-secondary">
-                                Pending
-                            </span>
-                            }
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
+                            <td>
+                                @if (user.status == 'Approved') {
+                                <span class="badge bg-success">
+                                    Approved
+                                </span>
+                                }
+                                @else if (user.status == 'Rejected') {
+                                <span class="badge bg-danger">
+                                    Rejected
+                                </span>
+                                }
+                                @else {
+                                <span class="badge bg-secondary">
+                                    Pending
+                                </span>
+                                }
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>

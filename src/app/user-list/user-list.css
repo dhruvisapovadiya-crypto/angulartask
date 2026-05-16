@@ -147,3 +147,110 @@ table {
     height: 30px;
   }
 }
+
+/* dark mode  */
+
+
+.theme-toggle {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 12px;
+  background: #e5e7eb;
+  color: #111827;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.theme-toggle:hover {
+  background: #d1d5db;
+}
+
+
+/* Dark Mode changes */
+
+.user-list-page {
+  background: #f9fbf4;
+}
+
+.user-list-dark {
+  background: #0f172a !important;
+  color: #e5e7eb;
+}
+
+.user-list-dark .card {
+  background: #111827 !important;
+  color: #e5e7eb;
+}
+
+.user-list-dark .card-header {
+  background: #1f2937 !important;
+  color: #e5e7eb;
+}
+
+.user-list-dark .text-muted {
+  color: #cbd5e1 !important;
+}
+
+.user-list-dark .table {
+  background: #111827 !important;
+  color: #f9fafb;
+}
+
+.user-list-dark .table thead th {
+  background: #1e293b !important;
+  color: white !important;
+  border-color: #374151 !important;
+}
+
+.user-list-dark .table tbody tr {
+  background: #111827 !important;
+}
+
+.user-list-dark .table tbody td {
+  background: #111827 !important;
+  color: #e5e7eb !important;
+  border-color: #374151 !important;
+}
+
+.user-list-dark .table-striped tbody tr:nth-of-type(odd) td {
+  background: #172033 !important;
+}
+
+.user-list-dark .table tbody tr:hover td {
+  background: #1f2937 !important;
+}
+
+.user-list-dark .theme-toggle {
+  background: #374151;
+  color: white;
+}
+
+.user-list-dark .theme-toggle:hover {
+  background: #4b5563;
+}
+
+.user-list-dark .dropdown-menu {
+  background: #1f2937;
+  border: 1px solid #374151;
+}
+
+.user-list-dark .dropdown-item {
+  color: white;
+}
+
+.user-list-dark .dropdown-item:hover {
+  background: #374151;
+}
+
+.user-list-dark input,
+.user-list-dark select {
+  background: #1f2937;
+  color: white;
+  border: 1px solid #374151;
+}
+
+.user-list-dark .reportee-badge {
+  background: #374151 !important;
+  color: white !important;
+}

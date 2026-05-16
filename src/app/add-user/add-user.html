@@ -1,7 +1,6 @@
 <div class="add-box card border-0 shadow-lg rounded-4 p-4 mb-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="fw-bold mb-0">Add New User</h4>
-
         <button class="btn btn-light border rounded-circle" type="button" (click)="close()">
             <i class="bi bi-x-lg"></i>
         </button>
@@ -9,17 +8,14 @@
 
     <form (ngSubmit)="addUser()" #userForm="ngForm">
         <div class="row g-3">
-
             <div class="col-md-6">
                 <label class="form-label">Name</label>
                 <input type="text" class="form-control" name="name" [(ngModel)]="user.name" required>
             </div>
-
             <div class="col-md-6">
                 <label class="form-label">Email</label>
                 <input type="email" class="form-control" name="email" [(ngModel)]="user.email" required>
             </div>
-
             <div class="col-md-6">
                 <label class="form-label">Role</label>
                 <select [(ngModel)]="user.role" class="form-select" name="role">
@@ -34,18 +30,14 @@
                     <option value="Team Lead">Team Lead</option>
                 </select>
             </div>
-
             <div class="col-md-6">
                 <label class="form-label">Reportee</label>
-
                 <div class="dropdown w-100">
                     <button class="form-select text-start" type="button" data-bs-toggle="dropdown">
                         {{ user.reportee.length ? user.reportee.join(', ') : 'Select Reportee' }}
                     </button>
-
                     <ul class="dropdown-menu w-100 p-2">
-
-                        <!-- Select All -->
+                        <!-- Select all button nu logic  -->
                         <li>
                             <label class="dropdown-item fw-bold">
                                 <input type="checkbox" class="form-check-input me-2" [checked]="isAllSelected()"
@@ -53,11 +45,10 @@
                                 Select All
                             </label>
                         </li>
-
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        
+
                         @for (reportee of reporteeList; track reportee) {
                         <li>
                             <label class="dropdown-item">
@@ -68,7 +59,6 @@
                             </label>
                         </li>
                         }
-
                     </ul>
                 </div>
             </div>
