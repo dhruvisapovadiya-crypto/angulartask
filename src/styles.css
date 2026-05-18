@@ -1,0 +1,190 @@
+body {
+    background: #edf4ff;
+    transition: 0.4s;
+}
+
+/* FULL DARK MODE */
+
+body.dark-mode {
+    background: #020617;
+}
+
+/* DASHBOARD */
+
+body.dark-mode .dashboard {
+    background: #020617;
+}
+
+/* WELCOME CARD */
+
+body.dark-mode .welcome-card {
+    background: linear-gradient(135deg, #111827, #1e293b);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* STAT CARDS */
+
+body.dark-mode .stat-card {
+    background: #111827;
+    border: 1px solid #1e293b;
+    color: white;
+}
+
+body.dark-mode .stat-card h3 {
+    color: #94a3b8;
+}
+
+body.dark-mode .stat-card h2 {
+    color: white;
+}
+
+body.dark-mode .stat-card p {
+    color: #22c55e;
+}
+
+
+body.dark-mode .panel {
+    background: #111827;
+    border: 1px solid #1e293b;
+    color: white;
+}
+
+body.dark-mode .panel h2 {
+    color: white;
+}
+
+body.dark-mode .activity p {
+    background: #1e293b;
+    color: #e5e7eb;
+}
+
+body.dark-mode .action-list button {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+}
+
+
+/* PANEL TEXT */
+
+body.dark-mode .panel {
+    background: #111827;
+    border: 1px solid #1e293b;
+    color: white;
+}
+
+/* HEADING */
+
+body.dark-mode .panel h2 {
+    color: white;
+}
+
+/* ACTIVITY TEXT */
+
+body.dark-mode .activity p {
+    background: #1e293b;
+    color: #f8fafc;
+}
+
+/* STAT CARD TEXT */
+
+body.dark-mode .stat-card h3 {
+    color: #94a3b8;
+}
+
+body.dark-mode .stat-card h2 {
+    color: white;
+}
+
+body.dark-mode .stat-card p {
+    color: #22c55e;
+}
+
+/* WELCOME CARD */
+
+body.dark-mode .welcome-card h1,
+body.dark-mode .welcome-card .desc,
+body.dark-mode .welcome-card .tag {
+    color: white;
+}
+
+/* BUTTONS */
+
+body.dark-mode .action-list button {
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: white;
+}
+
+
+/* FORCE TEXT COLORS */
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode div,
+body.dark-mode small {
+    color: white !important;
+}
+
+/* GREEN TEXT KEEP */
+
+body.dark-mode .stat-card p {
+    color: #22c55e !important;
+}
+
+/* ACTIVITY ITEMS */
+
+body.dark-mode .activity p {
+    background: #1e293b !important;
+    color: #f8fafc !important;
+}
+
+/* BUTTON TEXT */
+
+body.dark-mode button {
+    color: white !important;
+}
+
+
+
+
+
+
+
+
+
+
+/* Alll Alerts  */
+
+body.dark-mode .my-swal-popup,
+.user-list-dark .my-swal-popup {
+  background: #111827 !important;
+  color: white !important;
+  border: 1px solid #334155;
+}
+
+body.dark-mode .my-swal-title,
+.user-list-dark .my-swal-title {
+  color: white !important;
+}
+
+body.dark-mode .my-swal-text,
+.user-list-dark .my-swal-text {
+  color: #cbd5e1 !important;
+}
+
+.my-swal-confirm {
+  background: #dc3545 !important;
+  color: white !important;
+  border-radius: 8px !important;
+}
+
+.my-swal-cancel {
+  background: #64748b !important;
+  color: white !important;
+  border-radius: 8px !important;
+}

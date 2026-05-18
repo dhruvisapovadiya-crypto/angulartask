@@ -15,8 +15,8 @@
 }
 
 .login {
-  min-height: 550px;
-  max-width: 1300px;
+  min-height: 500px;
+  max-width: 1200px;
   background: rgba(255, 255, 255, 0.75);
   border-radius: 30px;
   overflow: hidden;

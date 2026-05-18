@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { Login } from '../login/login';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -10,45 +9,86 @@ import Swal from 'sweetalert2';
   styleUrl: './header.css',
 })
 export class Header {
+
   username = '';
+  email = '';
+
   router = inject(Router);
+
+  ngOnInit() {
+    this.username = localStorage.getItem('username') || '';
+    this.email = localStorage.getItem('email') || '';
+  }
+
   goToUserList() {
     this.router.navigate(['/user-list']);
   }
-  ngOnInit() {
-    this.username = localStorage.getItem('username') || '';
-  }
+
   logout() {
 
-  Swal.fire({
-    title: 'Are You Sure You Want to Leave?',
-    text: 'You will be redirected to login page',
-    iconColor: '#ff6b6b',
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonColor: '#dc3545',
-    confirmButtonText: 'Logout',
-    cancelButtonText: 'Cancel'
-  }).then((result: any) => {
+    Swal.fire({
+      title: 'Are You Sure You Want to Leave?',
+      text: 'You will be redirected to login page',
+      iconColor: '#ff6b6b',
+      icon: 'question',
 
-    if (result.isConfirmed) {
+      showCancelButton: true,
 
-      Swal.fire({
-        icon: 'success',
-        title: 'Logged Out Successfully',
-        timer: 1000,
-        showConfirmButton: false
-      });
+      confirmButtonColor: '#dc3545',
+      confirmButtonText: 'Logout',
 
-      setTimeout(() => {
+      cancelButtonText: 'Cancel',
 
-        this.router.navigate(['']);
+      // CHANGE: custom dark mode classes
+      customClass: {
+        popup: 'my-swal-popup',
+        title: 'my-swal-title',
+        htmlContainer: 'my-swal-text',
+        confirmButton: 'my-swal-confirm',
+        cancelButton: 'my-swal-cancel'
+      }
 
-      }, 1000);
+    }).then((result: any) => {
 
-    }
+      if (result.isConfirmed) {
 
-  });
+        Swal.fire({
 
-}
+          icon: 'success',
+          title: 'Logged Out Successfully',
+
+          timer: 1000,
+          showConfirmButton: false,
+
+          // CHANGE: success popup dark mode
+          customClass: {
+            popup: 'my-swal-popup',
+            title: 'my-swal-title',
+            htmlContainer: 'my-swal-text'
+          }
+
+        });
+
+        setTimeout(() => {
+
+          this.router.navigate(['']);
+
+        }, 1000);
+
+      }
+
+    });
+
+  }
+
+  isDarkMode = false;
+
+  toggleTheme() {
+    this.isDarkMode = !this.isDarkMode;
+
+    document.body.classList.toggle(
+      'dark-mode',
+      this.isDarkMode
+    );
+  }
 }

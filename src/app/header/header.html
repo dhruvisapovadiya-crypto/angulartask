@@ -1,26 +1,59 @@
-
-
-<header class="header">
+<header class="header" [class.dark-header]="isDarkMode">
 
   <div class="logo">
     FutureVision
   </div>
+
   <div class="right-side">
+
     <button class="user-list" (click)="goToUserList()">
       Users
     </button>
+
     <button class="logout-btn" (click)="logout()">
       Logout
     </button>
 
+    <!-- PROFILE -->
+
     <div class="profile">
 
       <div class="profile-circle">
-        {{username.charAt(0)}}
+        {{ username.charAt(0) }}
       </div>
 
+      <!-- HOVER PROFILE CARD -->
+
+      <div class="profile-popup">
+
+        <div class="popup-top">
+
+          <div class="popup-circle">
+            {{ username.charAt(0) }}
+          </div>
+
+          <div>
+            <h3>{{ username }}</h3>
+            <p>{{ email }}</p>
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
+
+    <!-- DARK LIGHT TOGGLE -->
+
+    <button class="theme-toggle" (click)="toggleTheme()">
+
+      @if (isDarkMode) {
+        ☀️
+      } @else {
+        🌙
+      }
+
+    </button>
 
   </div>
 

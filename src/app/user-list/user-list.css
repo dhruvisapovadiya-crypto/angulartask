@@ -49,19 +49,29 @@ table {
   min-width: 170px;
 }
 
+.form-control {
+  width: 230px;
+}
+
+.request-card {
+  width: 300px;
+}
+
+
 .badge {
   font-size: 12px;
   font-weight: 500;
 }
-.reportee-badge{
-    background: #e5e7eb;
-    padding: 10px 13px;
-    border-radius: 10px;
-    display: inline-block;
-    white-space: normal;
-    max-width: 240px;
-    font-size: 13px;
-    font-weight: bolder;
+
+.reportee-badge {
+  background: #e5e7eb;
+  padding: 10px 13px;
+  border-radius: 10px;
+  display: inline-block;
+  white-space: normal;
+  max-width: 240px;
+  font-size: 13px;
+  font-weight: bolder;
 }
 
 @media (max-width: 992px) {
@@ -147,6 +157,9 @@ table {
     height: 30px;
   }
 }
+
+
+
 
 /* dark mode  */
 
@@ -252,5 +265,42 @@ table {
 
 .user-list-dark .reportee-badge {
   background: #374151 !important;
+  color: white !important;
+}
+
+/* REQUEST CARD TEXT FIX */
+
+.user-list-dark .request-card h6,
+.user-list-dark .request-card p,
+.user-list-dark .request-card .old-text,
+.user-list-dark .request-card .new-text {
+  color: white !important;
+}
+
+/* FIELD NAME */
+
+.user-list-dark .request-card .text-primary {
+  color: #60a5fa !important;
+}
+
+/* DARK MODE REPORTEE DROPDOWN FIX */
+
+.user-list-dark .form-check-label {
+  color: white !important;
+  cursor: pointer;
+}
+
+.user-list-dark .form-check-input {
+  cursor: pointer;
+}
+
+.user-list-dark .dropdown-menu .form-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 4px;
+}
+
+.user-list-dark .dropdown-menu li {
   color: white !important;
 }

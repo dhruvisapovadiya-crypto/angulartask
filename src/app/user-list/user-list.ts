@@ -15,63 +15,87 @@ import { ChangeDetectorRef } from '@angular/core';
   styleUrl: './user-list.css',
 })
 export class UserList implements OnInit {
+
   showAddForm = false;
+
   http = inject(HttpClient);
   cdr = inject(ChangeDetectorRef);
 
   users: any[] = [];
   reporteeList: string[] = [];
+
   editIndex: number = -1;
   oldUser: any = null;
   editingUser: any = null;
+
   changeRequests: any[] = [];
-  isApproving: boolean = false;
-  isRejecting: boolean = false;
+  historyRequests: any[] = [];
+
+  isApproving = false;
+  isRejecting = false;
 
   isDarkMode = false;
 
-// first 2 function changes 
-ngOnInit() {
-  this.getUsers();
+  ngOnInit() {
+    this.getUsers();
 
-  const savedTheme = localStorage.getItem('userListTheme');
+    // CHANGE: pending dropdown request refresh pachi pan rahe
+    const pendingData = localStorage.getItem('changeRequests');
 
-  if (savedTheme === 'dark') {
-    this.isDarkMode = true;
-  } else {
-    this.isDarkMode = false;
+    if (pendingData) {
+      this.changeRequests = JSON.parse(pendingData);
+    }
+
+    // CHANGE: history page ma pending/approved/rejected badhu rahe
+    const historyData = localStorage.getItem('historyRequests');
+
+    if (historyData) {
+      this.historyRequests = JSON.parse(historyData);
+    }
+
+    const savedTheme = localStorage.getItem('userListTheme');
+
+    if (savedTheme === 'dark') {
+      this.isDarkMode = true;
+    } else {
+      this.isDarkMode = false;
+    }
   }
-}
 
-toggleTheme() {
-  this.isDarkMode = !this.isDarkMode;
+  toggleTheme() {
+    this.isDarkMode = !this.isDarkMode;
 
-  if (this.isDarkMode) {
-    localStorage.setItem('userListTheme', 'dark');
-  } else {
-    localStorage.setItem('userListTheme', 'light');
+    if (this.isDarkMode) {
+      localStorage.setItem('userListTheme', 'dark');
+    } else {
+      localStorage.setItem('userListTheme', 'light');
+    }
   }
-}
 
   openAddForm() {
     this.showAddForm = true;
   }
+
   closeAddForm() {
     this.showAddForm = false;
   }
+
   getUsers(): void {
     this.http.get<any[]>(
       'https://69e0d98d29c070e6597c24fa.mockapi.io/user'
     ).subscribe({
       next: (result) => {
         this.users = result.reverse();
+
         this.reporteeList = [
           ...new Set(result.map(user => user.name))
         ];
+
         this.cdr.detectChanges();
       },
       error: (err) => {
         console.log(err);
+
         Swal.fire({
           icon: 'error',
           title: 'API Error'
@@ -82,14 +106,17 @@ toggleTheme() {
 
   editUser(index: number) {
     this.editIndex = index;
+
     this.oldUser = {
       ...this.users[index],
       reportee: [...(this.users[index].reportee || [])]
     };
+
     this.editingUser = {
       ...this.users[index],
       reportee: [...(this.users[index].reportee || [])]
     };
+
     this.reporteeList = this.users
       .filter(user => user.name !== this.editingUser.name)
       .map(user => user.name);
@@ -152,20 +179,44 @@ toggleTheme() {
     }
 
     if (changes.length > 0) {
-      this.changeRequests.push({
+
+      // CHANGE: one request object banavyo
+      const requestData = {
         userIndex: index,
         userId: user.id,
+
         oldData: {
           ...this.oldUser,
           reportee: [...(this.oldUser.reportee || [])]
         },
+
         newData: {
           ...user,
           reportee: [...(user.reportee || [])]
         },
+
         changes: changes,
+
         status: 'Pending'
-      });
+      };
+
+      // CHANGE: dropdown ma pending request batavva
+      this.changeRequests.push(requestData);
+
+      // CHANGE: history page ma pending request pan batavva
+      this.historyRequests.push(requestData);
+
+      // CHANGE: pending request refresh pachi pan dropdown ma rahe
+      localStorage.setItem(
+        'changeRequests',
+        JSON.stringify(this.changeRequests)
+      );
+
+      // CHANGE: history refresh pachi pan rahe
+      localStorage.setItem(
+        'historyRequests',
+        JSON.stringify(this.historyRequests)
+      );
 
       Swal.fire(
         'Request Created',
@@ -179,83 +230,136 @@ toggleTheme() {
     this.editingUser = null;
   }
 
-  approveRequest(req: any, reqIndex: number) {
-    this.isApproving = true;
+approveRequest(req: any, reqIndex: number) {
+  this.isApproving = true;
 
-    const approvedUser = {
-      ...req.newData,
-      status: 'Approved'
-    };
+  // CHANGE: dropdown request status Approved
+  req.status = 'Approved';
 
-    this.http.put(
-      'https://69e0d98d29c070e6597c24fa.mockapi.io/user/' + req.userId,
-      approvedUser
-    ).subscribe({
-      next: () => {
-        setTimeout(() => {
-          this.isApproving = false;
-          this.users[req.userIndex] = approvedUser;
+  // CHANGE: history page ma same pending request ne Approved karva
+  const historyItem = this.historyRequests.find(
+    item => item.userId == req.userId && item.status == 'Pending'
+  );
 
-          req.status = 'Approved';
+  if (historyItem) {
+    historyItem.status = 'Approved';
+  }
 
-          this.cdr.detectChanges();
+  const approvedUser = {
+    ...req.newData,
+    status: 'Approved'
+  };
 
-          Swal.fire(
-            'Approved',
-            'Changes Approved Successfully',
-            'success'
-          );
-        }, 2000);
-      },
-      error: (err) => {
+  this.http.put(
+    'https://69e0d98d29c070e6597c24fa.mockapi.io/user/' + req.userId,
+    approvedUser
+  ).subscribe({
+    next: () => {
+      setTimeout(() => {
         this.isApproving = false;
-        console.log(err);
-      }
-    });
+
+        this.users[req.userIndex] = approvedUser;
+
+        // CHANGE: dropdown mathi pending request remove
+        this.changeRequests.splice(reqIndex, 1);
+
+        localStorage.setItem(
+          'changeRequests',
+          JSON.stringify(this.changeRequests)
+        );
+
+        // CHANGE: updated history status save
+        localStorage.setItem(
+          'historyRequests',
+          JSON.stringify(this.historyRequests)
+        );
+
+        this.cdr.detectChanges();
+
+        Swal.fire(
+          'Approved',
+          'Changes Approved Successfully',
+          'success'
+        );
+      }, 2000);
+    },
+    error: (err) => {
+      this.isApproving = false;
+      console.log(err);
+    }
+  });
+}
+
+rejectRequest(req: any, reqIndex: number) {
+  this.isRejecting = true;
+
+  // CHANGE: dropdown request status Rejected
+  req.status = 'Rejected';
+
+  // CHANGE: history page ma same pending request ne Rejected karva
+  const historyItem = this.historyRequests.find(
+    item => item.userId == req.userId && item.status == 'Pending'
+  );
+
+  if (historyItem) {
+    historyItem.status = 'Rejected';
   }
 
-  rejectRequest(req: any, reqIndex: number) {
-    this.isRejecting = true;
+  const rejectedUser = {
+    ...req.oldData,
+    status: 'Rejected'
+  };
 
-    const rejectedUser = {
-      ...req.oldData,
-      status: 'Rejected'
-    };
-
-    this.http.put(
-      'https://69e0d98d29c070e6597c24fa.mockapi.io/user/' + req.userId,
-      rejectedUser
-    ).subscribe({
-      next: () => {
-        setTimeout(() => {
-          this.isRejecting = false;
-
-          this.users[req.userIndex] = rejectedUser;
-
-          req.status = 'Rejected';
-
-          this.cdr.detectChanges();
-
-          Swal.fire(
-            'Rejected',
-            'Sorry, Your Edit request rejected so your changes not displayed',
-            'warning'
-          );
-        }, 2000);
-      },
-      error: (err) => {
+  this.http.put(
+    'https://69e0d98d29c070e6597c24fa.mockapi.io/user/' + req.userId,
+    rejectedUser
+  ).subscribe({
+    next: () => {
+      setTimeout(() => {
         this.isRejecting = false;
-        console.log(err);
-      }
-    });
-  }
+
+        this.users[req.userIndex] = rejectedUser;
+
+        // CHANGE: dropdown mathi pending request remove
+        this.changeRequests.splice(reqIndex, 1);
+
+        localStorage.setItem(
+          'changeRequests',
+          JSON.stringify(this.changeRequests)
+        );
+
+        // CHANGE: updated history status save
+        localStorage.setItem(
+          'historyRequests',
+          JSON.stringify(this.historyRequests)
+        );
+
+        this.cdr.detectChanges();
+
+        Swal.fire(
+          'Rejected',
+          'Sorry, Your Edit request rejected so your changes not displayed',
+          'warning'
+        );
+      }, 2000);
+    },
+    error: (err) => {
+      this.isRejecting = false;
+      console.log(err);
+    }
+  });
+}
 
   getRequestCount(userId: string): number {
     return this.changeRequests.filter(
-      req =>
-        req.userId == userId &&
-        (!req.status || req.status === 'Pending')
+      req => req.userId == userId && req.status === 'Pending'
     ).length;
+  }
+
+  getHistory(userId: string) {
+    return this.historyRequests.filter(
+      req => req.userId == userId
+    );
   }
 
   deleteUser(id: string) {
@@ -273,16 +377,19 @@ toggleTheme() {
         ).subscribe({
           next: () => {
             this.cdr.detectChanges();
+
             Swal.fire({
               icon: 'success',
               title: 'Deleted Successfully',
               timer: 1000,
               showConfirmButton: false
             });
+
             window.location.reload();
           },
           error: (err) => {
             console.log(err);
+
             Swal.fire({
               icon: 'error',
               title: 'Delete Failed'

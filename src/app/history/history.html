@@ -1,0 +1,101 @@
+<div class="history-page" [class.history-dark]="isDarkMode">
+
+    <div class="top-bar">
+        <div>
+            <p class="tag">User Activity</p>
+            <h1>Change History</h1>
+        </div>
+
+        <div class="top-actions">
+            <button class="theme-btn" (click)="toggleTheme()">
+                @if (isDarkMode) {
+                ☀️
+                } @else {
+                🌙
+                }
+            </button>
+
+            <button routerLink="/user-list">
+                Back
+            </button>
+        </div>
+    </div>
+
+    @if (historyRequests.length === 0) {
+    <section class="empty-history">
+
+        @if (!isDarkMode) {
+        <img class="empty-img" src="assets/history-light.png" alt="No History Found">
+        } @else {
+        <img class="empty-img" src="assets/history-dark.png" alt="No History Found">
+        }
+
+    </section>
+    }
+
+    <div class="history-grid">
+
+        @for (item of historyRequests; track item; let i = $index) {
+
+        <div class="history-card">
+
+            <!-- CHANGE: Status and cancel button ek line ma -->
+
+            <div class="card-top">
+
+                <div>
+                    @if (item.status == 'Pending') {
+                    <span class="status pending">
+                        Pending
+                    </span>
+                    }
+
+                    @if (item.status == 'Approved') {
+                    <span class="status approved">
+                        Approved
+                    </span>
+                    }
+
+                    @if (item.status == 'Rejected') {
+                    <span class="status rejected">
+                        Rejected
+                    </span>
+                    }
+                </div>
+
+                <!-- CHANGE: Aa button click karta history mathi card delete thase -->
+
+                <button class="cancel-btn" type="button" (click)="cancelHistory(i)">
+
+                    <i class="bi bi-trash-fill text-danger"></i>
+
+                </button>
+            </div>
+
+            <!-- CHANGES -->
+
+            @for (change of item.changes; track change) {
+
+            <div class="change-box">
+
+                <h3>{{ change.field }}</h3>
+
+                <p>
+                    <b>Old:</b> {{ change.oldValue }}
+                </p>
+
+                <p>
+                    <b>New:</b> {{ change.newValue }}
+                </p>
+
+            </div>
+
+            }
+
+        </div>
+
+        }
+
+    </div>
+
+</div>

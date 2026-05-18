@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, inject, Input, Output, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -15,6 +16,7 @@ import { ChangeDetectorRef } from '@angular/core';
 export class AddUser implements OnInit {
   http = inject(HttpClient);
   cdr = inject(ChangeDetectorRef);
+  route = inject(ActivatedRoute);
   router = inject(Router);
   changeRequests: any[] = [];
 

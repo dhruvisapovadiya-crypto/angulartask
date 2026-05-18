@@ -25,13 +25,18 @@ export class Login {
 
   constructor(private router: Router) { }
   login(form: NgForm) {
-
     if (form.valid) {
 
       localStorage.setItem(
         'username',
         this.user.name
       );
+
+      localStorage.setItem(
+        'email',
+        this.user.email
+      );
+
       this.router.navigate(['/dashboard']);
     }
   }
